@@ -1,0 +1,762 @@
+CREATE database SIMIDB
+
+USE [SIMIDB]
+GO
+
+CREATE TABLE TBL_RESPALDO(
+	RESPALDO_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	EQUIPO_ID int NOT NULL,
+	OPERARIO_ID int NOT NULL,
+	FECHA smalldatetime NOT NULL,
+	OBSERVACIONES varchar(255) NULL,
+	INGRESADOPOR int NOT NULL,
+	MODIFICADOPOR int NOT NULL,
+	FECHAINGRESO smalldatetime NOT NULL,
+	FECHAMODIFICACION smalldatetime NOT NULL)
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Llave Primaria para la estructura' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'RESPALDO_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identificador del Equipo - Maquinaria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'EQUIPO_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identificador del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'OPERARIO_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en que se programó el mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'FECHA'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Alguna observacion relacionada con el mantenimiento implicado' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'OBSERVACIONES'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que crea el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'INGRESADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que modifica el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'MODIFICADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se crea el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'FECHAINGRESO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se modifica el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'FECHAMODIFICACION'
+
+CREATE TABLE TBL_LISTAVALORES(
+	LISTAVALORES_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	NOMBRE varchar(50) NOT NULL UNIQUE,
+	DESCRIPCION varchar(255) NULL,
+	TIPO varchar(6) NOT NULL,
+	INGRESADOPOR int NOT NULL,
+	MODIFICADOPOR int NOT NULL,
+	FECHAINGRESO smalldatetime NOT NULL DEFAULT (getdate()),
+	FECHAMODIFICACION smalldatetime NOT NULL DEFAULT (getdate()))
+ 
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Llave Primaria para la estructura' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'LISTAVALORES_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Nombre que dentifica univocamente cada marca y linea' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'NOMBRE'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Alguna descripcion opcionla para las marcas y lineas' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'DESCRIPCION'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Distingue si se trata de Lineas o Marcas' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'TIPO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que crea el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'INGRESADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que modifica el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'MODIFICADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se crea el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'FECHAINGRESO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se modifica el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'FECHAMODIFICACION'
+
+
+CREATE TABLE TBL_EQUIPOS(
+	EQUIPO_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	NOMBRE_EQUIPO varchar(50) NOT NULL,
+	MARCA int NOT NULL,
+	SERIE varchar(20) NOT NULL UNIQUE,
+	LINEA int NOT NULL,
+	LUBRICACION bit NOT NULL DEFAULT 0,
+	INGRESADOPOR int NOT NULL,
+	MODIFICADOPOR int NOT NULL,
+	FECHAINGRESO smalldatetime NOT NULL DEFAULT (getdate()),
+	FECHAMODIFICACION smalldatetime NOT NULL DEFAULT (getdate()),
+   	CONSTRAINT FK_LINEA FOREIGN KEY(LINEA)
+    REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID),
+    CONSTRAINT FK_MARCA FOREIGN KEY(MARCA)
+	REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID))
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Llave Primaria para la estructura' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'EQUIPO_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Nombre que identifica el Equipo - Maquinaria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'NOMBRE_EQUIPO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Codi que identifica la marca asociada al Equipo - Maquinaria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'MARCA'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Serie unica para cada Equipo - Maquinaria suministrada por el fabricante' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'SERIE'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Codi que identifica la linea a la que pertenece el Equipo - Maquinaria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'LINEA'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Indicador que tendrá valores de 1 y 0 para identificar que el Equipo - Maquinaria requiere lubricacion y por ende labores de programacion de mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'LUBRICACION'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que crea el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'INGRESADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que modifica el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'MODIFICADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se crea el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'FECHAINGRESO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se modifica el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'FECHAMODIFICACION'
+
+CREATE TABLE TBL_OPERARIOS(
+	OPERARIO_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	DOCUMENTO varchar(10) NOT NULL UNIQUE,
+	NOMBRES varchar(25) NOT NULL,
+	APELLIDOS varchar(25) NOT NULL,
+	TELEFONO varchar(10) NOT NULL,
+	CORREO varchar(50) NULL,
+	CLAVE varbinary(100) NOT NULL,
+	PERFIL smallint NOT NULL DEFAULT 3,
+	FOTO varchar(50) NULL,
+	INGRESADOPOR int NOT NULL,
+	MODIFICADOPOR int NOT NULL,
+	FECHAINGRESO smalldatetime NOT NULL DEFAULT (getdate()),
+	FECHAMODIFICACION smalldatetime NOT NULL DEFAULT (getdate()))
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Llave Primaria para la estructura' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'OPERARIO_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Documento de identificacion del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'DOCUMENTO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Son los nombres del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'NOMBRES'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Son los apellidos del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'APELLIDOS'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Es el numero de telefono fijo o movil del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'TELEFONO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Es el email o correo electronico del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'CORREO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Es la clave de acceso al sistema para el Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'CLAVE'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Es el nivel de permisos sobre el sistema para el Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'PERFIL'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fotografia opcional del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'FOTO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que crea el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'INGRESADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que modifica el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'MODIFICADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se crea el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'FECHAINGRESO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se modifica el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_OPERARIOS', @level2type=N'COLUMN',@level2name=N'FECHAMODIFICACION'
+
+CREATE TABLE dbo.TBL_MANTENIMIENTO(
+	MANTENIMIENTO_ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	EQUIPO_ID int NOT NULL UNIQUE,
+	OPERARIO_ID int NOT NULL,
+	FECHA smalldatetime NOT NULL,
+	OBSERVACIONES varchar(255) NULL,
+	INGRESADOPOR int NOT NULL,
+	MODIFICADOPOR int NOT NULL,
+	FECHAINGRESO smalldatetime NOT NULL DEFAULT (getdate()),
+	FECHAMODIFICACION smalldatetime NOT NULL DEFAULT (getdate()),
+    CONSTRAINT FK_EQUIPO_ID FOREIGN KEY(EQUIPO_ID)
+	REFERENCES TBL_EQUIPOS (EQUIPO_ID),
+	CONSTRAINT FK_OPERARIO_ID FOREIGN KEY(OPERARIO_ID)
+	REFERENCES TBL_OPERARIOS (OPERARIO_ID),
+    CONSTRAINT UQ_OPERARIO_FECHA UNIQUE (OPERARIO_ID, FECHA))
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Llave Primaria para la estructura' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'MANTENIMIENTO_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identificador del Equipo - Maquinaria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'EQUIPO_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identificador del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'OPERARIO_ID'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en que se programó el mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'FECHA'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Alguna observacion relacionada con el mantenimiento implicado' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'OBSERVACIONES'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que crea el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'INGRESADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que modifica el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'MODIFICADOPOR'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se crea el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'FECHAINGRESO'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en en que se modifica el registro' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'FECHAMODIFICACION'
+
+INSERT INTO TBL_OPERARIOS(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, PERFIL, INGRESADOPOR, MODIFICADOPOR) 
+VALUES ('123456', 'Admin', 'Admin', '1234567', 'correo@yahoo.com', ENCRYPTBYPASSPHRASE('$$simi2020$$', '123456'), 1, 1, 1)
+
+INSERT INTO TBL_LISTAVALORES(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('SIEMENS','MARCAS','PROVEEDOR SIEMENS',1,1)
+INSERT INTO TBL_LISTAVALORES(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('RICOH','MARCAS','PROVEEDOR RICOH',1,1)
+INSERT INTO TBL_LISTAVALORES(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('ACABADOS','LINEAS','PLANTA DE ACABADOS',1,1)
+INSERT INTO TBL_LISTAVALORES(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('ENSAMBLE','LINEAS','PLANTA DE ENSAMBLE',1,1)
+
+INSERT INTO TBL_EQUIPOS (NOMBRE_EQUIPO,MARCA,SERIE,LINEA,LUBRICACION,INGRESADOPOR,MODIFICADOPOR) VALUES ('EQUIPO DESPALETIZADOR',1,'EDPA2045',3,1,1,1)
+INSERT INTO TBL_EQUIPOS (NOMBRE_EQUIPO,MARCA,SERIE,LINEA,LUBRICACION,INGRESADOPOR,MODIFICADOPOR) VALUES ('EQUIPO DESPRESURIZADOR',2,'EDPU2087',4,1, 1,1)
+
+GO
+CREATE PROCEDURE [dbo].[SPR_D_Registro]		
+@p_TABLA		varchar(20),
+@p_CONDICION  	INT,
+@p_RESULTADO    INT OUT 
+
+AS
+    DECLARE @DatoExiste INT
+    SET @DatoExiste = 0
+    SET @p_RESULTADO = 0
+    
+    
+BEGIN TRY
+      IF(@p_TABLA = 'TBL_OPERARIOS')
+         BEGIN
+			 SET @DatoExiste = (SELECT TOP 1 OPERARIO_ID FROM TBL_MANTENIMIENTO WHERE OPERARIO_ID = @p_CONDICION)
+			 IF (@DatoExiste <> 0)
+				 BEGIN 
+					  SET @p_RESULTADO = 1
+				 END
+			 ELSE
+				 BEGIN
+					  DELETE FROM TBL_OPERARIOS WHERE OPERARIO_ID = @p_CONDICION
+				 END
+         END
+      ELSE IF (@p_TABLA = 'TBL_EQUIPOS')  
+               BEGIN        
+                    SET @DatoExiste = (SELECT TOP 1 OPERARIO_ID FROM TBL_MANTENIMIENTO WHERE EQUIPO_ID = @p_CONDICION)
+					IF (@DatoExiste <> 0)
+					    BEGIN 
+							  SET @p_RESULTADO = 1
+					    END
+					 ELSE
+						 BEGIN
+							  DELETE FROM TBL_EQUIPOS WHERE EQUIPO_ID = @p_CONDICION
+                         END  
+               END
+      ELSE IF (@p_TABLA = 'TBL_LISTAVALORES')
+               
+               BEGIN                    
+                    SET @DatoExiste = (SELECT TOP 1 LINEA FROM TBL_EQUIPOS WHERE LINEA = @p_CONDICION)
+                    		IF (@DatoExiste <> 0)
+					    BEGIN 
+							  SET @p_RESULTADO = 1
+					    END					
+                    ELSE
+						BEGIN 
+                              SET @DatoExiste = (SELECT TOP 1 MARCA FROM TBL_EQUIPOS WHERE MARCA = @p_CONDICION)
+					          IF (@DatoExiste <> 0)
+				                   BEGIN 
+							            SET @p_RESULTADO = 1
+					               END
+                              ELSE
+                                  BEGIN
+							           DELETE FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID = @p_CONDICION
+                                  END
+						END
+               END
+      ELSE IF (@p_TABLA = 'TBL_MANTENIMIENTO')
+               BEGIN  
+                    INSERT INTO TBL_RESPALDO(EQUIPO_ID,
+											 OPERARIO_ID,
+											 FECHA,
+											 OBSERVACIONES,
+											 INGRESADOPOR,
+											 MODIFICADOPOR,
+											 FECHAINGRESO,
+											 FECHAMODIFICACION)
+											 SELECT
+											 EQUIPO_ID,
+											 OPERARIO_ID,
+											 FECHA,
+											 OBSERVACIONES,
+											 INGRESADOPOR,
+											 MODIFICADOPOR,
+											 FECHAINGRESO,
+											 FECHAMODIFICACION
+											 FROM TBL_MANTENIMIENTO
+											 WHERE MANTENIMIENTO_ID = @p_CONDICION 
+                    DELETE FROM TBL_MANTENIMIENTO WHERE MANTENIMIENTO_ID = @p_CONDICION
+               END
+                    
+END TRY
+
+BEGIN CATCH   
+      SET @P_RESULTADO = ERROR_NUMBER()
+      RETURN @P_RESULTADO
+END CATCH
+
+GO
+CREATE PROCEDURE 	[dbo].[SPR_IU_Equipos]
+@p_EQUIPO_ID		INT,
+@p_NOMBRE_EQUIPO	varchar(50),
+@p_MARCA			INT,
+@p_SERIE		    varchar(50),
+@p_LINEA			INT,
+@p_LUBRICACION	    BIT,
+@p_USUARIOCONECTADO	INT,
+@p_RESULTADO        INT OUT
+
+AS
+  DECLARE @SerieNueva  varchar(50)
+  DECLARE @SerieActual varchar(50)
+
+  SET @SerieNueva  = ''
+  SET @SerieActual = ''   
+  SET @p_RESULTADO = 0
+  
+  BEGIN TRY
+           SET @SerieNueva = (SELECT SERIE FROM TBL_EQUIPOS WHERE SERIE = @p_SERIE)           
+           IF (@p_EQUIPO_ID = 0) 
+               IF (@SerieNueva <> '')
+		           SET @p_RESULTADO = 1
+               ELSE
+           		   INSERT INTO TBL_EQUIPOS(
+										   NOMBRE_EQUIPO, 
+										   MARCA,  
+										   SERIE, 
+										   LINEA,  
+										   LUBRICACION, 
+										   INGRESADOPOR, 
+										   MODIFICADOPOR)
+							   VALUES(
+										   @p_NOMBRE_EQUIPO, 
+										   @p_MARCA, 
+										   @p_SERIE, 
+										   @p_LINEA, 
+										   @p_LUBRICACION, 
+										   @p_USUARIOCONECTADO, 
+										   @p_USUARIOCONECTADO)
+           ELSE
+            
+                 SET @SerieActual = (SELECT SERIE FROM TBL_EQUIPOS WHERE EQUIPO_ID = @p_EQUIPO_ID)
+                 IF ((@SerieNueva <>'') AND (@SerieActual <> @p_SERIE)) 
+			          SET @p_RESULTADO = 1	  
+	             ELSE		 		    
+				
+			         UPDATE TBL_EQUIPOS SET             
+					 NOMBRE_EQUIPO       = @p_NOMBRE_EQUIPO,  
+					 MARCA			     = @p_MARCA, 
+					 SERIE               = @p_SERIE, 
+					 LINEA				 = @p_LINEA, 
+					 LUBRICACION		 = @p_LUBRICACION,
+					 MODIFICADOPOR       = @p_USUARIOCONECTADO,
+					 FECHAMODIFICACION   = GETDATE()
+		     		 WHERE EQUIPO_ID     = @p_EQUIPO_ID      
+			      
+  END TRY
+
+BEGIN CATCH   
+      SET @P_RESULTADO = ERROR_NUMBER()
+      RETURN @P_RESULTADO
+END CATCH
+
+GO
+CREATE PROCEDURE [dbo].[SPR_R_CargarListado]
+	@p_TABLA		varchar(20),    
+    @p_CONDICION	varchar(20)
+
+AS
+ BEGIN 
+      IF(@p_TABLA = 'TBL_OPERARIOS')
+         IF (@p_CONDICION <> '')
+             BEGIN         
+                   SELECT OPERARIO_ID, DOCUMENTO, (NOMBRES + ' ' + APELLIDOS) AS NOMBRE_COMPLETO, CORREO, TELEFONO, FOTO  FROM TBL_OPERARIOS WHERE  DOCUMENTO = @p_CONDICION
+             END
+         ELSE 
+             BEGIN
+                               
+                   SELECT OPERARIO_ID, DOCUMENTO, (NOMBRES + ' ' + APELLIDOS) AS NOMBRE_COMPLETO, CORREO, TELEFONO, FOTO FROM TBL_OPERARIOS
+             END         
+      ELSE IF (@p_TABLA = 'MARCAS') 
+               IF (@p_CONDICION <> '')   
+                   BEGIN  
+                          SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, TIPO, 'MARCAS' FROM TBL_LISTAVALORES WHERE DESCRIPCION IS NOT NULL AND TIPO = 'MARCAS'
+                          AND NOMBRE = @p_CONDICION
+                          UNION ALL(SELECT LISTAVALORES_ID, NOMBRE, TIPO, 'MARCAS','MARCAS' FROM TBL_LISTAVALORES WHERE DESCRIPCION IS NULL AND TIPO = 'MARCAS' AND NOMBRE = @p_CONDICION)
+                   END
+               ELSE 
+                   BEGIN                      
+                          SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, TIPO, 'MARCAS' FROM TBL_LISTAVALORES WHERE DESCRIPCION IS NOT NULL AND TIPO = 'MARCAS'
+                          UNION ALL(SELECT LISTAVALORES_ID, NOMBRE, TIPO, 'MARCAS','MARCAS' FROM TBL_LISTAVALORES WHERE DESCRIPCION IS NULL AND TIPO = 'MARCAS')           
+                   END    
+      ELSE IF (@p_TABLA = 'LINEAS')
+               
+               IF (@p_CONDICION <> '')   
+                   BEGIN   			                        
+                          SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, TIPO, 'LINEAS' FROM TBL_LISTAVALORES WHERE DESCRIPCION IS NOT NULL AND TIPO = 'LINEAS'
+                          AND NOMBRE = @p_CONDICION
+                          UNION ALL(SELECT LISTAVALORES_ID, NOMBRE, TIPO, 'LINEAS','LINEAS' FROM TBL_LISTAVALORES WHERE DESCRIPCION IS NULL AND TIPO = 'LINEAS' AND NOMBRE = @p_CONDICION)
+                   END
+               ELSE 
+                   BEGIN   
+                          SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, TIPO, 'LINEAS' FROM TBL_LISTAVALORES WHERE DESCRIPCION IS NOT NULL AND TIPO = 'LINEAS'
+                          UNION ALL(SELECT LISTAVALORES_ID, NOMBRE, TIPO, 'LINEAS', 'LINEAS' FROM TBL_LISTAVALORES WHERE DESCRIPCION IS NULL AND TIPO = 'LINEAS')
+                   END           
+      ELSE IF (@p_TABLA = 'TBL_EQUIPOS')
+              IF (@p_CONDICION <> '')   
+                   BEGIN                           
+				         SELECT EQUIPO_ID, 
+				  				NOMBRE_EQUIPO, 
+								SERIE, 
+								CASE
+									  WHEN LUBRICACION = 1 THEN 'SI'
+									  ELSE 'NO' 
+								END AS LUBRICACION, ''		
+						 FROM TBL_EQUIPOS
+						WHERE (NOT EXISTS
+                          (SELECT     EQUIPO_ID
+                            FROM      TBL_MANTENIMIENTO
+                            WHERE     (TBL_EQUIPOS.EQUIPO_ID = EQUIPO_ID)) AND SERIE = @p_CONDICION)
+
+                   END
+               ELSE 
+                   BEGIN                                         
+				         SELECT EQUIPO_ID, 
+				  				NOMBRE_EQUIPO, 
+								SERIE, 
+								CASE
+									  WHEN LUBRICACION = 1 THEN 'SI'
+									  ELSE 'NO' 
+								END AS LUBRICACION, ''		
+						 FROM TBL_EQUIPOS
+                        WHERE (NOT EXISTS
+                          (SELECT     EQUIPO_ID
+                            FROM      TBL_MANTENIMIENTO
+                            WHERE     (TBL_EQUIPOS.EQUIPO_ID = EQUIPO_ID)))
+                   END                                    
+      ELSE IF (@p_TABLA = 'TBL_MANTENIMIENTO')
+               IF (@p_CONDICION <> '')   
+                   BEGIN
+                        SELECT M.MANTENIMIENTO_ID, M.EQUIPO_ID, E.NOMBRE_EQUIPO, E.SERIE, (O.DOCUMENTO+ ' ' +O.NOMBRES + ' ' + O.APELLIDOS) AS Operario
+						FROM TBL_MANTENIMIENTO M
+						INNER JOIN TBL_EQUIPOS E ON E.EQUIPO_ID = M.EQUIPO_ID
+						INNER JOIN TBL_OPERARIOS O ON O.OPERARIO_ID = M.OPERARIO_ID
+						WHERE E.SERIE = @p_CONDICION
+                   END
+               ELSE 
+                   BEGIN   
+                          SELECT M.MANTENIMIENTO_ID, M.EQUIPO_ID, E.NOMBRE_EQUIPO, E.SERIE, (O.DOCUMENTO+ ' ' +O.NOMBRES + ' ' + O.APELLIDOS) AS Operario 
+						  FROM TBL_MANTENIMIENTO M
+						  INNER JOIN TBL_EQUIPOS E ON E.EQUIPO_ID = M.EQUIPO_ID
+						  INNER JOIN TBL_OPERARIOS O ON O.OPERARIO_ID = M.OPERARIO_ID
+                   END
+
+ 
+END
+
+GO
+CREATE PROCEDURE [dbo].[SPR_R_BuscarRegistro](		
+	@p_TABLA		varchar(20),
+    @p_DATOBUSCAR	INT)
+
+AS
+
+ BEGIN 
+      IF(@p_TABLA = 'TBL_OPERARIOS')
+         SELECT OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, FOTO FROM TBL_OPERARIOS WHERE OPERARIO_ID = @p_DATOBUSCAR                      
+      ELSE IF (@p_TABLA = 'TBL_EQUIPOS')   
+               SELECT * FROM TBL_EQUIPOS WHERE EQUIPO_ID = @p_DATOBUSCAR                
+      ELSE IF (@p_TABLA = 'TBL_LISTAVALORES')
+               SELECT * FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID = @p_DATOBUSCAR                 
+      ELSE IF (@p_TABLA = 'TBL_MANTENIMIENTO')
+               SELECT * FROM TBL_MANTENIMIENTO WHERE EQUIPO_ID = @p_DATOBUSCAR    
+ 
+END
+
+GO
+CREATE PROCEDURE [dbo].[SPR_R_CargarCombosListas](		
+	@p_TABLA			varchar(20))
+
+AS
+BEGIN 
+      IF(@p_TABLA = 'TBL_OPERARIOS')
+         SELECT OPERARIO_ID, (DOCUMENTO + ' ' + NOMBRES + ' ' + APELLIDOS) AS NOMBRECOMPLETO FROM TBL_OPERARIOS
+      ELSE IF (@p_TABLA = 'TBL_EQUIPOS')       
+               SELECT EQUIPO_ID, NOMBRE_EQUIPO FROM TBL_EQUIPOS
+               WHERE NOT EXISTS
+                          (SELECT     EQUIPO_ID
+                            FROM      TBL_MANTENIMIENTO
+                            WHERE     (TBL_EQUIPOS.EQUIPO_ID = EQUIPO_ID))
+      ELSE IF (@p_TABLA = 'LINEAS')
+               SELECT LISTAVALORES_ID, NOMBRE
+			   FROM TBL_LISTAVALORES
+			   WHERE TIPO='LINEAS'
+      ELSE IF (@p_TABLA = 'MARCAS')
+               SELECT LISTAVALORES_ID, NOMBRE
+			   FROM TBL_LISTAVALORES
+			   WHERE TIPO='MARCAS' 
+      ELSE IF (@p_TABLA = 'CONTROLEQUIPOS')
+               SELECT  LISTAVALORES_ID, NOMBRE, TIPO
+			   FROM TBL_LISTAVALORES
+			   UNION ALL
+			   SELECT EQUIPO_ID, NOMBRE_EQUIPO, 'EQUIPOS' FROM TBL_EQUIPOS
+			   WHERE NOT EXISTS
+			          		   (SELECT EQUIPO_ID
+							    FROM   TBL_MANTENIMIENTO
+							    WHERE  TBL_EQUIPOS.EQUIPO_ID = EQUIPO_ID)
+			   ORDER BY TIPO
+      ELSE IF (@p_TABLA = 'PROGRAMACION')        
+               SELECT E.EQUIPO_ID, (E.NOMBRE_EQUIPO+ ' '+ E.SERIE) AS EQUIPO, 'EQUIPOS' AS TIPO 
+               FROM  TBL_MANTENIMIENTO M
+			   INNER JOIN TBL_EQUIPOS E ON M.EQUIPO_ID=E.EQUIPO_ID
+     		   UNION ALL
+			   SELECT OPERARIO_ID, (DOCUMENTO + ' ' +  NOMBRES + ' ' + APELLIDOS) AS NOMBRECOMPLETO, 'OPERARIOS' FROM TBL_OPERARIOS
+			   ORDER BY TIPO
+      ELSE IF (@p_TABLA = 'PROGRAMAR')        
+               SELECT EQUIPO_ID, (NOMBRE_EQUIPO+ ' '+ SERIE) AS EQUIPO, 'EQUIPOS' AS TIPO 
+			   FROM   TBL_EQUIPOS
+			   WHERE (NOT EXISTS
+                    (SELECT EQUIPO_ID
+                     FROM   TBL_MANTENIMIENTO
+                     WHERE  (TBL_EQUIPOS.EQUIPO_ID = EQUIPO_ID))) AND (LUBRICACION = 1)     		  
+			   UNION ALL
+			   SELECT OPERARIO_ID, (DOCUMENTO + ' ' + NOMBRES + ' ' + APELLIDOS) AS NOMBRECOMPLETO, 'OPERARIOS' 
+			   FROM TBL_OPERARIOS
+			   ORDER BY TIPO
+END
+
+GO
+CREATE PROCEDURE 	[dbo].[SPR_U_CambioClave]
+@p_OPERARIO_ID		INT,
+@p_CLAVE_ANTERIOR	INT,
+@p_CLAVE_NUEVA	    INT,
+@p_RESULTADO        INT OUT  
+
+AS
+  DECLARE @v_DatoExiste INT;
+  DECLARE @v_ClaveAntigua VARCHAR(6)
+  DECLARE @V_ClaveNueva VARCHAR(6)
+   
+  SET @v_DatoExiste = 0
+  SET @v_ClaveAntigua = CONVERT(varchar(6), @p_CLAVE_ANTERIOR)
+  SET @V_ClaveNueva = CONVERT(varchar(6), @p_CLAVE_NUEVA)
+  
+  SELECT @v_DatoExiste = COUNT(*)    
+  FROM TBL_OPERARIOS 
+  WHERE OPERARIO_ID = @p_OPERARIO_ID
+  AND CONVERT(VARCHAR(300), DECRYPTBYPASSPHRASE('$$simi2020$$', CLAVE)) = @v_ClaveAntigua
+    
+  SET @p_RESULTADO = 0
+  
+  BEGIN TRY
+            IF (@v_DatoExiste = 0)
+                SET @p_RESULTADO = 1
+            ELSE
+                BEGIN
+						UPDATE TBL_OPERARIOS SET             
+						CLAVE				= ENCRYPTBYPASSPHRASE('$$simi2020$$', @V_ClaveNueva),
+						MODIFICADOPOR		= @p_OPERARIO_ID,
+						FECHAMODIFICACION	= GETDATE()
+						WHERE OPERARIO_ID   = @p_OPERARIO_ID  
+                END  
+  END TRY
+
+BEGIN CATCH   
+      SET @P_RESULTADO = ERROR_NUMBER()
+      RETURN @P_RESULTADO
+END CATCH
+
+GO
+
+CREATE PROCEDURE [dbo].[SPR_R_ObtenerAcceso](
+  @p_DOCUMENTO  VARCHAR(10), 
+  @p_CLAVE      VARCHAR(100)
+)
+AS 
+
+BEGIN
+      SELECT OPERARIO_ID, NOMBRES, APELLIDOS, PERFIL 
+	  FROM TBL_OPERARIOS 
+	  WHERE DOCUMENTO =  @p_DOCUMENTO 
+      AND CONVERT(VARCHAR(100), DECRYPTBYPASSPHRASE('$$simi2020$$', CLAVE)) = @p_CLAVE
+
+	  
+END
+
+GO
+CREATE PROCEDURE 	[dbo].[SPR_IU_Operarios]
+@p_OPERARIO_ID 		INT,
+@p_DOCUMENTO		varchar(10),
+@p_NOMBRES			varchar(25),
+@p_APELLIDOS		varchar(25),
+@p_TELEFONO			NUMERIC(10, 0),
+@p_CORREO			varchar(50),
+@p_FOTO  			varchar(100),
+@p_USUARIOCONECTADO	INT,
+@p_RESULTADO		INT OUT
+
+AS
+  DECLARE @Operario varchar(10)
+  SET @Operario = ''
+  SET @p_RESULTADO = 0
+
+  BEGIN TRY
+        IF (@p_OPERARIO_ID = 0) 
+            BEGIN
+                 SET @Operario = (SELECT DOCUMENTO FROM TBL_OPERARIOS WHERE DOCUMENTO = @p_DOCUMENTO)
+            
+				IF (@Operario <> '') 
+					SET @p_RESULTADO = 1
+				ELSE
+        			   INSERT INTO TBL_OPERARIOS(
+								   DOCUMENTO, 
+								   NOMBRES, 
+								   APELLIDOS, 
+								   TELEFONO, 
+								   CORREO, 
+								   CLAVE,
+								   FOTO, 
+								   INGRESADOPOR, 
+								   MODIFICADOPOR)
+					   VALUES(
+								   @p_DOCUMENTO, 
+								   @p_NOMBRES, 
+								   @p_APELLIDOS, 
+								   @p_TELEFONO, 
+								   @p_CORREO, 
+								   ENCRYPTBYPASSPHRASE('$$simi2020$$', SUBSTRING(@p_DOCUMENTO,1,6)),
+								   @p_FOTO, 
+								   @p_USUARIOCONECTADO,
+								   @p_USUARIOCONECTADO)
+				END
+        ELSE
+            UPDATE TBL_OPERARIOS SET             
+            NOMBRES            = @p_NOMBRES,  
+            APELLIDOS          = @p_APELLIDOS, 
+            TELEFONO           = @p_TELEFONO, 
+            CORREO             = @p_CORREO,
+            FOTO		       = @p_FOTO,
+            MODIFICADOPOR      = @p_USUARIOCONECTADO,
+            FECHAMODIFICACION  = GETDATE()
+            WHERE OPERARIO_ID  = @p_OPERARIO_ID             
+  END TRY
+  
+BEGIN CATCH   
+      SET @P_RESULTADO = ERROR_NUMBER()
+      RETURN @P_RESULTADO
+END CATCH
+
+GO
+CREATE PROCEDURE 	[dbo].[SPR_IU_Mantenimiento]
+@p_MANTENIMIENTO_ID INT,  
+@p_EQUIPO_ID   	    INT,
+@p_OPERARIO_ID		INT,
+@p_FECHA			SMALLDATETIME,
+@p_OBSERVACIONES 	varchar(255),
+@p_USUARIOCONECTADO	INT,
+@p_RESULTADO        INT OUT
+
+AS
+  DECLARE @OperarioActual INT
+  DECLARE @OperarioNuevo  INT
+  DECLARE @FechaActual    varchar(10)
+  DECLARE @FechaNueva     varchar(10)
+  DECLARE @Equipo         INT
+  SET @OperarioActual = 0
+  SET @OperarioNuevo = 0
+  SET @FechaActual = ''
+  SET @FechaNueva = ''
+  set @p_RESULTADO = 0
+  set @Equipo = 0
+
+  BEGIN TRY
+        SELECT @OperarioNuevo = OPERARIO_ID, @FechaNueva = FECHA FROM TBL_MANTENIMIENTO WHERE OPERARIO_ID = @p_OPERARIO_ID AND  convert(varchar(10), FECHA, 103) = convert(varchar(10), @p_FECHA, 103) 
+        IF (@p_MANTENIMIENTO_ID = 0) 
+            IF (@OperarioNuevo <> 0 AND @FechaNueva <> '')  
+		        set @p_RESULTADO = 1
+		    ELSE
+                BEGIN 
+                  SELECT @Equipo = EQUIPO_ID FROM TBL_MANTENIMIENTO WHERE EQUIPO_ID = @p_EQUIPO_ID
+				  IF (@Equipo <> 0)
+                      set @p_RESULTADO = 2		               
+                  ELSE
+                       BEGIN 
+							   INSERT INTO TBL_MANTENIMIENTO(
+										   EQUIPO_ID, 
+										   OPERARIO_ID, 
+										   FECHA, 
+										   OBSERVACIONES, 
+										   INGRESADOPOR, 
+										   MODIFICADOPOR)
+							   VALUES(
+										   @p_EQUIPO_ID, 
+										   @p_OPERARIO_ID, 
+										   @p_FECHA,
+										   @p_OBSERVACIONES, 
+										   @p_USUARIOCONECTADO,
+										   @p_USUARIOCONECTADO)
+                       END
+               END
+        ELSE     
+            IF (@OperarioNuevo <> 0) 
+               BEGIN   
+				   SELECT @OperarioActual = OPERARIO_ID, @FechaActual = convert(varchar(10), FECHA, 103) FROM TBL_MANTENIMIENTO WHERE EQUIPO_ID = @p_EQUIPO_ID;
+				   IF (@OperarioActual <> @p_OPERARIO_ID) 
+					  set @p_RESULTADO = 1
+				   ELSE IF ((@OperarioActual = @p_OPERARIO_ID) AND (@FechaActual <> convert(varchar(10), @p_FECHA, 103))) 
+						   set @p_RESULTADO = 1	
+                   ELSE
+						BEGIN
+							UPDATE TBL_MANTENIMIENTO SET        
+							OPERARIO_ID        = @p_OPERARIO_ID,
+							FECHA              = @p_FECHA,
+							OBSERVACIONES      = @p_OBSERVACIONES,
+							FECHAMODIFICACION  = GETDATE()
+							WHERE MANTENIMIENTO_ID = @p_MANTENIMIENTO_ID 
+						END
+ 
+               END		   
+            ELSE
+                BEGIN
+					UPDATE TBL_MANTENIMIENTO SET             					
+					OPERARIO_ID        = @p_OPERARIO_ID,
+					FECHA              = @p_FECHA,
+					OBSERVACIONES      = @p_OBSERVACIONES,
+					FECHAMODIFICACION  = GETDATE()
+					WHERE MANTENIMIENTO_ID = @p_MANTENIMIENTO_ID 
+                END
+                         
+  END TRY
+  
+BEGIN CATCH   
+      SET @P_RESULTADO = ERROR_NUMBER()
+      RETURN @P_RESULTADO
+END CATCH
+
+GO
+CREATE PROCEDURE 	[dbo].[SPR_IU_ListaValores]
+@p_LISTAVALORES_ID	INT,
+@p_NOMBRE 			varchar(50),
+@p_DESCRIPCION		varchar(255),
+@p_TIPO			    varchar(50),
+@p_USUARIOCONECTADO	INT,
+@p_RESULTADO        INT OUT
+
+AS
+  DECLARE @NombreNuevo  varchar(50)
+  DECLARE @NombreActual varchar(50)
+  SET @NombreNuevo = ''
+  SET @NombreActual = ''
+  SET @p_RESULTADO = 0
+
+  BEGIN TRY
+            SET @NombreNuevo = (SELECT NOMBRE FROM TBL_LISTAVALORES WHERE NOMBRE = @p_NOMBRE)           
+          
+        IF (@p_LISTAVALORES_ID = 0) 
+            IF (@NombreNuevo <> '') 
+                SET @p_RESULTADO = 1
+            ELSE  
+				   INSERT INTO TBL_LISTAVALORES(
+							   NOMBRE, 
+							   DESCRIPCION, 
+							   TIPO, 
+							   INGRESADOPOR, 
+							   MODIFICADOPOR)
+				   VALUES(
+							   @p_NOMBRE, 
+							   @p_DESCRIPCION, 
+							   @p_TIPO, 
+							   @p_USUARIOCONECTADO, 
+							   @p_USUARIOCONECTADO)
+        ELSE
+            SET @NombreActual = (SELECT NOMBRE FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID = @p_LISTAVALORES_ID)
+            IF ((@NombreNuevo <> '') AND (@NombreActual <> @p_NOMBRE)) 
+			     SET @p_RESULTADO = 1
+            ELSE
+				 UPDATE TBL_LISTAVALORES SET             
+				 NOMBRE			       = @p_NOMBRE,  
+				 DESCRIPCION           = @p_DESCRIPCION, 
+				 MODIFICADOPOR         = @p_USUARIOCONECTADO,
+				 FECHAMODIFICACION     = GETDATE()
+				 WHERE LISTAVALORES_ID = @p_LISTAVALORES_ID             
+  END TRY
+  
+BEGIN CATCH   
+      SET @P_RESULTADO = ERROR_NUMBER()
+      RETURN @P_RESULTADO
+END CATCH
