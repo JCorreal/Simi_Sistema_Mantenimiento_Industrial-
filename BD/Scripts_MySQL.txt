@@ -20,7 +20,8 @@ CREATE TABLE tbl_listavalores (
   INGRESADOPOR int(4) DEFAULT NULL COMMENT 'Usuario que crea el registro para control de auditoria',
   MODIFICADOPOR int(4) DEFAULT NULL COMMENT 'Usuario que modifica el registro para control de auditoria',
   FECHAINGRESO timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en en que se crea el registro',
-  FECHAMODIFICACION timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en en que se modifica el registro'
+  FECHAMODIFICACION timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en en que se modifica el registro',
+  CONSTRAINT CHK_Tipo CHECK (TIPO IN('MARCAS','LINEAS'))
  ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Estructura que almacenara toda la informacion relacionada con lineas y marcas';
 
 CREATE TABLE tbl_operarios (
