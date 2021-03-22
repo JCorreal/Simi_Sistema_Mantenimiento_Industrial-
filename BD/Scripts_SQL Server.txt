@@ -20,7 +20,7 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identificador 
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identificador del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'OPERARIO_ID'
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en que se programÛ el mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'FECHA'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en que se program√≥ el mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'FECHA'
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Alguna observacion relacionada con el mantenimiento implicado' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_RESPALDO', @level2type=N'COLUMN',@level2name=N'OBSERVACIONES'
 
@@ -40,7 +40,8 @@ CREATE TABLE TBL_LISTAVALORES(
 	INGRESADOPOR int NOT NULL,
 	MODIFICADOPOR int NOT NULL,
 	FECHAINGRESO smalldatetime NOT NULL DEFAULT (getdate()),
-	FECHAMODIFICACION smalldatetime NOT NULL DEFAULT (getdate()))
+	FECHAMODIFICACION smalldatetime NOT NULL DEFAULT (getdate()),
+  	CONSTRAINT CHK_Tipo CHECK (TIPO IN('MARCAS','LINEAS')))
  
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Llave Primaria para la estructura' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_LISTAVALORES', @level2type=N'COLUMN',@level2name=N'LISTAVALORES_ID'
 
@@ -71,8 +72,8 @@ CREATE TABLE TBL_EQUIPOS(
 	FECHAINGRESO smalldatetime NOT NULL DEFAULT (getdate()),
 	FECHAMODIFICACION smalldatetime NOT NULL DEFAULT (getdate()),
    	CONSTRAINT FK_LINEA FOREIGN KEY(LINEA)
-    REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID),
-    CONSTRAINT FK_MARCA FOREIGN KEY(MARCA)
+    	REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID),
+    	CONSTRAINT FK_MARCA FOREIGN KEY(MARCA)
 	REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID))
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Llave Primaria para la estructura' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'EQUIPO_ID'
@@ -85,7 +86,7 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Serie unica pa
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Codi que identifica la linea a la que pertenece el Equipo - Maquinaria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'LINEA'
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Indicador que tendr· valores de 1 y 0 para identificar que el Equipo - Maquinaria requiere lubricacion y por ende labores de programacion de mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'LUBRICACION'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Indicador que tendr√° valores de 1 y 0 para identificar que el Equipo - Maquinaria requiere lubricacion y por ende labores de programacion de mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'LUBRICACION'
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Usuario que crea el registro para control de auditoria' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_EQUIPOS', @level2type=N'COLUMN',@level2name=N'INGRESADOPOR'
 
@@ -158,7 +159,7 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identificador 
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identificador del Operario' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'OPERARIO_ID'
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en que se programÛ el mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'FECHA'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Fecha en que se program√≥ el mantenimiento' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'FECHA'
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Alguna observacion relacionada con el mantenimiento implicado' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TBL_MANTENIMIENTO', @level2type=N'COLUMN',@level2name=N'OBSERVACIONES'
 
