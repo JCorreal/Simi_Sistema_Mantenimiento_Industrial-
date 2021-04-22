@@ -1,0 +1,865 @@
+-- =========================================================================================
+-- ======= Debes crear un User y otorgar permisos ======= 
+-- CREATE SCHEMA SIMIDB AUTHORIZATION TuPassword;
+-- CREATE USER Nombre_Usuario IDENTIFIED BY TuPassword;
+-- GRANT CONNECT TO Nombre_Usuario;
+-- GRANT CONNECT, RESOURCE, DBA TO Nombre_Usuario;
+-- GRANT CREATE SESSION GRANT ANY PRIVILEGE TO Nombre_Usuario;
+-- GRANT UNLIMITED TABLESPACE TO Nombre_Usuario;
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON schema.SIMIDB TO Nombre_Usuario;
+-- =========================================================================================
+
+CREATE TABLE TBL_RESPALDO ( 
+  RESPALDO_ID        NUMBER (4)    NOT NULL PRIMARY KEY, 
+  EQUIPO_ID          NUMBER (4)    NOT NULL, 
+  OPERARIO_ID        NUMBER (4)    NOT NULL, 
+  FECHA              DATE          NOT NULL, 
+  OBSERVACIONES      VARCHAR2 (255), 
+  INGRESADOPOR       NUMBER (4)    NOT NULL, 
+  MODIFICADOPOR      NUMBER (4)    NOT NULL, 
+  FECHAINGRESO       DATE          NOT NULL, 
+  FECHAMODIFICACION  DATE          NOT NULL);
+
+COMMENT ON TABLE TBL_RESPALDO IS 'Estructura que almacenará toda la información relacionada con el historico de mantenimientos';
+
+CREATE TABLE TBL_LISTAVALORES ( 
+  LISTAVALORES_ID    NUMBER (4)     NOT NULL PRIMARY KEY, 
+  NOMBRE             VARCHAR2 (50)  NOT NULL UNIQUE, 
+  DESCRIPCION        VARCHAR2 (255), 
+  TIPO               VARCHAR2 (50)  NOT NULL, 
+  INGRESADOPOR       NUMBER (4)     NOT NULL, 
+  MODIFICADOPOR      NUMBER (4)     NOT NULL, 
+  FECHAINGRESO       DATE           DEFAULT SYSDATE NOT NULL, 
+  FECHAMODIFICACION  DATE           DEFAULT SYSDATE NOT NULL,
+  CONSTRAINT CHK_Tipo CHECK (TIPO IN('MARCAS','LINEAS')));  
+
+COMMENT ON TABLE TBL_LISTAVALORES IS 'Estructura que almacenará toda la información relacionada con lineas y marcas';
+
+COMMENT ON COLUMN TBL_LISTAVALORES.LISTAVALORES_ID IS 'Llave Primaria para la estructura';
+COMMENT ON COLUMN TBL_LISTAVALORES.NOMBRE IS 'Nombre que dentifica univocamente cada marca y linea';
+COMMENT ON COLUMN TBL_LISTAVALORES.DESCRIPCION IS 'Alguna descripcion opcionla para las marcas y lineas';
+COMMENT ON COLUMN TBL_LISTAVALORES.TIPO IS 'Distingue si se trata de Lineas o marcas';
+COMMENT ON COLUMN TBL_LISTAVALORES.INGRESADOPOR IS 'Usuario que crea el registro para control de auditoria';
+COMMENT ON COLUMN TBL_LISTAVALORES.MODIFICADOPOR IS 'Usuario que modifica el registro para control de auditoria';
+COMMENT ON COLUMN TBL_LISTAVALORES.FECHAINGRESO IS 'Fecha en en que se crea el registro';
+COMMENT ON COLUMN TBL_LISTAVALORES.FECHAMODIFICACION IS 'Fecha en en que se modifica el registro';
+
+
+CREATE TABLE TBL_OPERARIOS ( 
+  OPERARIO_ID        NUMBER (4)     NOT NULL PRIMARY KEY, 
+  DOCUMENTO          VARCHAR2 (10)  NOT NULL UNIQUE, 
+  NOMBRES            VARCHAR2 (25)  NOT NULL, 
+  APELLIDOS          VARCHAR2 (25)  NOT NULL, 
+  TELEFONO           VARCHAR2 (10)  NOT NULL, 
+  CORREO             VARCHAR2 (50), 
+  CLAVE              VARCHAR2 (20)  NOT NULL, 
+  PERFIL             NUMBER (1)     DEFAULT 3 NOT NULL, 
+  FOTO               VARCHAR2 (15), 
+  INGRESADOPOR       NUMBER (4)     NOT NULL, 
+  MODIFICADOPOR      NUMBER (4)     NOT NULL, 
+  FECHAINGRESO       DATE           DEFAULT SYSDATE NOT NULL, 
+  FECHAMODIFICACION  DATE           DEFAULT SYSDATE NOT NULL);
+
+COMMENT ON TABLE TBL_OPERARIOS IS 'Estructura que almacenará toda la información relacionada con los operarios';
+
+COMMENT ON COLUMN TBL_OPERARIOS.OPERARIO_ID IS 'Llave Primaria para la estructura';
+COMMENT ON COLUMN TBL_OPERARIOS.DOCUMENTO IS 'Documento de identificacion del Operario';
+COMMENT ON COLUMN TBL_OPERARIOS.NOMBRES IS 'Son los nombres del Operario';
+COMMENT ON COLUMN TBL_OPERARIOS.APELLIDOS IS 'Son los apellidos del Operario';
+COMMENT ON COLUMN TBL_OPERARIOS.TELEFONO IS 'Es el numero de telefono fijo o movil del Operario';
+COMMENT ON COLUMN TBL_OPERARIOS.CORREO IS 'Es el email o correo electronico del Operario';
+COMMENT ON COLUMN TBL_OPERARIOS.CLAVE IS 'Es la clave de acceso al sistema para el Operario';
+COMMENT ON COLUMN TBL_OPERARIOS.PERFIL IS 'Es el nivel de permisos sobre el sistema para el Operario';
+COMMENT ON COLUMN TBL_OPERARIOS.FOTO IS 'Fotografia opcional del Operario';
+COMMENT ON COLUMN TBL_OPERARIOS.INGRESADOPOR IS 'Usuario que crea el registro para control de auditoria';
+COMMENT ON COLUMN TBL_OPERARIOS.MODIFICADOPOR IS 'Usuario que modifica el registro para control de auditoria';
+COMMENT ON COLUMN TBL_OPERARIOS.FECHAINGRESO IS 'Fecha en en que se crea el registro';
+COMMENT ON COLUMN TBL_OPERARIOS.FECHAMODIFICACION IS 'Fecha en en que se modifica el registro';
+
+CREATE TABLE TBL_EQUIPOS ( 
+  EQUIPO_ID          NUMBER (4)    NOT NULL PRIMARY KEY, 
+  NOMBRE_EQUIPO      VARCHAR2 (50) NOT NULL, 
+  MARCA              NUMBER (4)    NOT NULL, 
+  SERIE              VARCHAR2 (20) NOT NULL UNIQUE, 
+  LINEA              NUMBER (4)    NOT NULL, 
+  LUBRICACION        NUMBER (1)    DEFAULT 0, 
+  INGRESADOPOR       NUMBER (4)    NOT NULL, 
+  MODIFICADOPOR      NUMBER (4)    NOT NULL, 
+  FECHAINGRESO       DATE          DEFAULT SYSDATE NOT NULL, 
+  FECHAMODIFICACION  DATE          DEFAULT SYSDATE NOT NULL,
+  CONSTRAINT FK_LINEA FOREIGN KEY(LINEA)REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID),
+  CONSTRAINT FK_MARCA FOREIGN KEY(MARCA)REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID));
+
+COMMENT ON TABLE TBL_EQUIPOS IS 'Estructura que almacenará toda la información relacionada con el Equipo - Maquinaria';
+
+COMMENT ON COLUMN TBL_EQUIPOS.EQUIPO_ID IS 'Llave Primaria para la estructura';
+COMMENT ON COLUMN TBL_EQUIPOS.NOMBRE_EQUIPO IS 'Nombre que identifica el Equipo - Maquinaria';
+COMMENT ON COLUMN TBL_EQUIPOS.MARCA IS 'Codigo que identifica la marca asociada al Equipo - Maquinaria';
+COMMENT ON COLUMN TBL_EQUIPOS.SERIE IS 'Serie unica para cada Equipo - Maquinaria suministrada por el fabricante';
+COMMENT ON COLUMN TBL_EQUIPOS.LINEA IS 'Codigo que identifica la linea a la que pertenece el Equipo - Maquinaria';
+COMMENT ON COLUMN TBL_EQUIPOS.LUBRICACION IS 'Indicador que tendrá valores de 1 y 0 para identificar que el Equipo - Maquinaria requiere lubricacion y por ende labores de programacion de mantenimiento';
+COMMENT ON COLUMN TBL_EQUIPOS.FECHAINGRESO IS 'Fecha en en que se crea el registro';
+COMMENT ON COLUMN TBL_EQUIPOS.FECHAMODIFICACION IS 'Fecha en en que se modifica el registro';
+COMMENT ON COLUMN TBL_EQUIPOS.INGRESADOPOR IS 'Usuario que crea el registro para control de auditoria';
+COMMENT ON COLUMN TBL_EQUIPOS.MODIFICADOPOR IS 'Usuario que modifica el registro para control de auditoria';
+
+CREATE TABLE TBL_MANTENIMIENTO ( 
+  MANTENIMIENTO_ID   NUMBER (4)    NOT NULL PRIMARY KEY, 
+  EQUIPO_ID          NUMBER (4)    NOT NULL UNIQUE, 
+  OPERARIO_ID        NUMBER (4)    NOT NULL, 
+  FECHA              DATE          NOT NULL, 
+  OBSERVACIONES      VARCHAR2 (255), 
+  INGRESADOPOR       NUMBER (4)    NOT NULL, 
+  MODIFICADOPOR      NUMBER (4)    NOT NULL, 
+  FECHAINGRESO       DATE          DEFAULT SYSDATE NOT NULL, 
+  FECHAMODIFICACION  DATE          DEFAULT SYSDATE NOT NULL, 
+  CONSTRAINT FK_OPERARIO_ID FOREIGN KEY (OPERARIO_ID)   
+  REFERENCES TBL_OPERARIOS (OPERARIO_ID),
+  CONSTRAINT FK_EQUIPO_ID FOREIGN KEY (EQUIPO_ID)  
+  REFERENCES TBL_EQUIPOS (EQUIPO_ID),
+  CONSTRAINT UQ_OPERARIO_FECHA UNIQUE (OPERARIO_ID, FECHA)); 
+
+COMMENT ON TABLE TBL_MANTENIMIENTO IS 'Estructura que almacenará toda la informacion relacionada con las programaciones de mantenimiento a los diferentes equipos';
+
+COMMENT ON COLUMN TBL_MANTENIMIENTO.MANTENIMIENTO_ID IS 'Llave Primaria para la estructura';
+COMMENT ON COLUMN TBL_MANTENIMIENTO.EQUIPO_ID IS 'Identificador del Equipo - Maquinaria';
+COMMENT ON COLUMN TBL_MANTENIMIENTO.OPERARIO_ID IS 'Identificador del Operario implicado en el mantenimiento';
+COMMENT ON COLUMN TBL_MANTENIMIENTO.FECHA IS 'Fecha de programacion del mantenimiento';
+COMMENT ON COLUMN TBL_MANTENIMIENTO.OBSERVACIONES IS 'Alguna observacion relacionada con el mantenimiento implicado';
+COMMENT ON COLUMN TBL_MANTENIMIENTO.INGRESADOPOR IS 'Usuario que crea el registro para control de auditoria';
+COMMENT ON COLUMN TBL_MANTENIMIENTO.MODIFICADOPOR IS 'Usuario que modifica el registro para control de auditoria';
+COMMENT ON COLUMN TBL_MANTENIMIENTO.FECHAINGRESO IS 'Fecha en en que se crea el registro';
+COMMENT ON COLUMN TBL_MANTENIMIENTO.FECHAMODIFICACION IS 'Fecha en en que se modifica el registro';
+
+CREATE SEQUENCE SQ_EQUIPOS INCREMENT BY 1 START WITH 1 MINVALUE 0 MAXVALUE 9999999999999999999999999999 NOCYCLE NOCACHE NOORDER;
+CREATE SEQUENCE SQ_LISTAVALORES INCREMENT BY 1 START WITH 1 MINVALUE 0 MAXVALUE 9999999999999999999999999999 NOCYCLE NOCACHE NOORDER;
+CREATE SEQUENCE SQ_MANTENIMIENTO INCREMENT BY 1 START WITH 1 MINVALUE 0 MAXVALUE 9999999999999999999999999999 NOCYCLE NOCACHE NOORDER;
+CREATE SEQUENCE SQ_OPERARIOS INCREMENT BY 1 START WITH 1 MINVALUE 0 MAXVALUE 9999999999999999999999999999 NOCYCLE NOCACHE NOORDER;
+CREATE SEQUENCE SQ_RESPALDO INCREMENT BY 1 START WITH 1 MINVALUE 0 MAXVALUE 9999999999999999999999999999 NOCYCLE NOCACHE NOORDER;
+
+BEGIN 
+
+INSERT INTO TBL_OPERARIOS(OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, PERFIL, INGRESADOPOR, MODIFICADOPOR) 
+VALUES (SQ_OPERARIOS.NEXTVAL, '123456', 'Admin', 'Admin', '1234567', 'correo@yahoo.com',
+(DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>'12345600',key_string=>'simi2020')), 1, 1, 1);
+
+INSERT INTO TBL_OPERARIOS(OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+VALUES (SQ_OPERARIOS.NEXTVAL,'32499321', 'Valentina', 'Otero', '3108971480', 'valen_oter@gmail.com', (DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>'32499300',key_string=>'simi2020')), '32499321.jpg', 1, 1);
+
+INSERT INTO TBL_OPERARIOS(OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+VALUES (SQ_OPERARIOS.NEXTVAL,'43633198', 'Patricia', 'Jaramillo', '3208971520', 'patri@hotmail.com', (DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>'43633100',key_string=>'simi2020')), '43633198.jpg', 1, 1);
+
+INSERT INTO TBL_OPERARIOS(OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+VALUES (SQ_OPERARIOS.NEXTVAL,'71675402', 'Oscar', 'Gallardo', '3008971983', 'ocgal@yahoo.com', (DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>'71675400',key_string=>'simi2020')), '71675402.jpg', 1, 1);
+
+INSERT INTO TBL_OPERARIOS(OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+VALUES (SQ_OPERARIOS.NEXTVAL,'71685009', 'Felipe', 'Giraldo', '3108971252', 'fepeg@yahoo.com', (DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>'71685000',key_string=>'simi2020')), '71685009.jpg', 1, 1);
+
+INSERT INTO TBL_OPERARIOS(OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+VALUES (SQ_OPERARIOS.NEXTVAL,'98375421', 'Juan', 'Villareal', '3168971787', 'juan_villa@yahoo.com', (DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>'98375400',key_string=>'simi2020')), '98375421.jpg', 1, 1);
+
+INSERT INTO TBL_OPERARIOS(OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+VALUES (SQ_OPERARIOS.NEXTVAL,'98490355', 'Jorge', 'Carrillo', '3108971412', 'jorgeca@yahoo.es', (DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>'98490300',key_string=>'simi2020')), '98490355.jpg', 1, 1);
+
+INSERT INTO TBL_LISTAVALORES(LISTAVALORES_ID, NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES(SQ_LISTAVALORES.NEXTVAL, 'SIEMENS','MARCAS','PROVEEDOR SIEMENS',1,1);
+INSERT INTO TBL_LISTAVALORES(LISTAVALORES_ID, NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES(SQ_LISTAVALORES.NEXTVAL, 'RICOH','MARCAS','PROVEEDOR RICOH',1,1);
+INSERT INTO TBL_LISTAVALORES(LISTAVALORES_ID, NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES(SQ_LISTAVALORES.NEXTVAL, 'ACABADOS','LINEAS','PLANTA DE ACABADOS',1,1);
+INSERT INTO TBL_LISTAVALORES(LISTAVALORES_ID, NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES(SQ_LISTAVALORES.NEXTVAL, 'ENSAMBLE','LINEAS','PLANTA DE ENSAMBLE',1,1);
+
+INSERT INTO TBL_EQUIPOS (EQUIPO_ID, NOMBRE_EQUIPO,MARCA,SERIE,LINEA,LUBRICACION,INGRESADOPOR,MODIFICADOPOR) VALUES (SQ_EQUIPOS.NEXTVAL,'EQUIPO DESPALETIZADOR',1,'EDPA2045',3,1,1,1);
+INSERT INTO TBL_EQUIPOS (EQUIPO_ID,NOMBRE_EQUIPO,MARCA,SERIE,LINEA,LUBRICACION,INGRESADOPOR,MODIFICADOPOR) VALUES (SQ_EQUIPOS.NEXTVAL,'EQUIPO DESPRESURIZADOR',2,'EDPU2087',4,1, 1,1);
+
+COMMIT;
+
+END;
+
+
+CREATE OR REPLACE PROCEDURE SPR_D_Registro
+(
+  p_TABLA      IN  VARCHAR2,
+  p_CONDICION  IN  NUMBER,
+  p_RESULTADO  OUT NUMBER 
+
+)
+
+IS
+
+v_DatoExiste varchar2(50):= null;
+
+
+CURSOR Cur_Mantenimiento1 IS
+SELECT OPERARIO_ID
+FROM   TBL_MANTENIMIENTO
+WHERE  OPERARIO_ID = p_CONDICION AND ROWNUM =1;
+
+CURSOR Cur_Mantenimiento2 IS
+SELECT OPERARIO_ID
+FROM   TBL_MANTENIMIENTO
+WHERE  EQUIPO_ID  = p_CONDICION;
+
+CURSOR Cur_Equipos1 IS
+SELECT LINEA
+FROM   TBL_EQUIPOS
+WHERE  LINEA  = p_CONDICION AND ROWNUM =1;
+
+CURSOR Cur_Equipos2 IS
+SELECT MARCA
+FROM   TBL_EQUIPOS
+WHERE  MARCA  = p_CONDICION AND ROWNUM =1;
+
+BEGIN
+      p_RESULTADO := 0;
+
+      IF(p_TABLA = 'TBL_OPERARIOS') THEN
+	     OPEN Cur_Mantenimiento1;
+		 FETCH Cur_Mantenimiento1 INTO v_DatoExiste;
+		 CLOSE Cur_Mantenimiento1;
+		 IF (v_DatoExiste IS NOT NULL) THEN
+             p_RESULTADO := 1;
+		 ELSE
+		     DELETE FROM TBL_OPERARIOS WHERE OPERARIO_ID = p_CONDICION;
+	    END IF;		 
+      ELSIF (p_TABLA = 'TBL_EQUIPOS')  THEN        
+	         OPEN Cur_Mantenimiento2;
+			 FETCH Cur_Mantenimiento2 INTO v_DatoExiste;
+			 CLOSE Cur_Mantenimiento2;
+			 IF (v_DatoExiste IS NOT NULL) THEN
+	             p_RESULTADO := 1;
+			 ELSE    
+                 DELETE FROM TBL_EQUIPOS WHERE EQUIPO_ID = p_CONDICION;
+		     END IF;		 
+      ELSIF (p_TABLA = 'TBL_LISTAVALORES') THEN
+	         OPEN Cur_Equipos1;
+			 FETCH Cur_Equipos1 INTO v_DatoExiste;
+			 CLOSE Cur_Equipos1;
+			 IF (v_DatoExiste IS NOT NULL) THEN
+	             p_RESULTADO := 1;		     	 
+			 ELSE
+				 OPEN Cur_Equipos2;
+				 FETCH Cur_Equipos2 INTO v_DatoExiste;
+				 CLOSE Cur_Equipos2;
+				 IF (v_DatoExiste IS NOT NULL) THEN
+		             p_RESULTADO := 1;		     	 
+				 ELSE
+                     DELETE FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID = p_CONDICION;
+				 END IF;	 
+			 END IF;		 
+      ELSIF (p_TABLA = 'TBL_MANTENIMIENTO') THEN
+                           INSERT INTO TBL_RESPALDO(
+						   		  	   RESPALDO_ID,
+						   		  	   EQUIPO_ID,
+                                       OPERARIO_ID,
+                                       FECHA,
+                                       OBSERVACIONES,
+                                       INGRESADOPOR,
+                                       MODIFICADOPOR,
+                                       FECHAINGRESO,
+                                       FECHAMODIFICACION)
+                                       SELECT
+									   SQ_RESPALDO.NEXTVAL,
+                                       EQUIPO_ID,
+                                       OPERARIO_ID,
+                                       FECHA,
+                                       OBSERVACIONES,
+                                       INGRESADOPOR,
+                                       MODIFICADOPOR,
+                                       FECHAINGRESO,
+                                       FECHAMODIFICACION
+                                       FROM TBL_MANTENIMIENTO
+                                       WHERE MANTENIMIENTO_ID = p_CONDICION; 
+             DELETE FROM TBL_MANTENIMIENTO WHERE MANTENIMIENTO_ID = p_CONDICION;             
+      END IF;
+      
+      COMMIT;
+      
+      EXCEPTION
+        WHEN OTHERS THEN
+        p_RESULTADO := SUBSTR(SQLCODE,1,20);
+
+END SPR_D_Registro;
+/
+CREATE OR REPLACE PROCEDURE SPR_IU_Equipos(
+p_EQUIPO_ID		        IN TBL_EQUIPOS.EQUIPO_ID%TYPE,
+p_NOMBRE_EQUIPO         IN TBL_EQUIPOS.NOMBRE_EQUIPO%TYPE,
+p_MARCA          		IN TBL_EQUIPOS.MARCA%TYPE,
+p_SERIE                 IN TBL_EQUIPOS.SERIE%TYPE,
+p_LINEA         		IN TBL_EQUIPOS.LINEA%TYPE,
+p_LUBRICACION           IN TBL_EQUIPOS.LUBRICACION%TYPE,
+p_USUARIOCONECTADO      IN TBL_EQUIPOS.INGRESADOPOR%TYPE,
+p_RESULTADO             OUT NUMERIC )
+
+IS
+
+v_SerieNueva  TBL_EQUIPOS.SERIE%TYPE:= null;
+v_SerieActual TBL_EQUIPOS.SERIE%TYPE:= null;
+
+CURSOR Cur_Serie IS
+SELECT SERIE
+FROM   TBL_EQUIPOS
+WHERE  SERIE  = p_SERIE;
+
+
+BEGIN
+      p_RESULTADO := 0;
+	  
+	  -- Validar que no exista la serie que envían como parámetro
+		 OPEN Cur_Serie;
+		 FETCH Cur_Serie INTO v_SerieNueva;
+		 CLOSE Cur_Serie;
+         
+	  IF (p_EQUIPO_ID = 0) THEN
+	        
+         IF (v_SerieNueva IS NOT NULL) THEN
+		     p_RESULTADO := 1;
+	  
+	     ELSE		 
+		
+			 INSERT INTO TBL_EQUIPOS(
+		                 EQUIPO_ID,
+		                 NOMBRE_EQUIPO, 
+		                 MARCA,  
+		                 SERIE, 
+		                 LINEA,  
+		                 LUBRICACION, 
+		                 INGRESADOPOR, 
+		                 MODIFICADOPOR)
+		     VALUES(
+		                  SQ_EQUIPOS.NEXTVAL, 
+		                  UPPER(p_NOMBRE_EQUIPO), 
+		                  p_MARCA, 
+		                  UPPER(p_SERIE), 
+		                  p_LINEA, 
+		                  p_LUBRICACION, 
+		                  p_USUARIOCONECTADO, 
+		                  p_USUARIOCONECTADO);
+		                       
+		                  COMMIT;
+		 END IF;				  
+        
+		ELSE
+		       SELECT SERIE INTO v_SerieActual FROM TBL_EQUIPOS WHERE EQUIPO_ID = p_EQUIPO_ID;
+			   IF ((v_SerieNueva IS NOT NULL) AND (v_SerieActual <> p_SERIE)) THEN
+			       p_RESULTADO := 1;
+	  
+	           ELSE		 
+		
+	               UPDATE TBL_EQUIPOS SET             
+	               NOMBRE_EQUIPO       = UPPER(p_NOMBRE_EQUIPO),  
+	               MARCA        	   = p_MARCA, 
+	               SERIE               = UPPER(p_SERIE), 
+	               LINEA        	   = p_LINEA, 
+	               LUBRICACION         = p_LUBRICACION,
+	               MODIFICADOPOR       = p_USUARIOCONECTADO,
+	               FECHAMODIFICACION   = SYSDATE
+	               WHERE EQUIPO_ID     = p_EQUIPO_ID;
+	               
+	               COMMIT;
+				   
+               END IF;               
+        END IF;               
+        
+        EXCEPTION
+        WHEN OTHERS THEN
+        p_RESULTADO := SUBSTR(SQLCODE,1,20);
+    
+             
+END SPR_IU_Equipos;
+/
+CREATE OR REPLACE PROCEDURE SPR_IU_LISTAVALORES(
+p_LISTAVALORES_ID   IN TBL_LISTAVALORES.LISTAVALORES_ID%TYPE,
+p_NOMBRE            IN TBL_LISTAVALORES.NOMBRE%TYPE,
+p_DESCRIPCION       IN TBL_LISTAVALORES.DESCRIPCION%TYPE,
+p_TIPO              IN TBL_LISTAVALORES.TIPO%TYPE,
+p_USUARIOCONECTADO  IN TBL_LISTAVALORES.INGRESADOPOR%TYPE,
+p_RESULTADO         OUT NUMERIC)
+
+IS
+
+v_NombreNuevo  TBL_LISTAVALORES.NOMBRE%TYPE:= null;
+v_NombreActual TBL_LISTAVALORES.NOMBRE%TYPE:= null;
+
+CURSOR Cur_Nombre IS
+SELECT NOMBRE
+FROM   TBL_LISTAVALORES
+WHERE  NOMBRE  = p_NOMBRE;
+
+BEGIN
+      p_RESULTADO := 0;
+	  
+      -- Validar que no exista el nombre que envían como parámetro
+	  OPEN Cur_Nombre;
+	  FETCH Cur_Nombre INTO v_NombreNuevo;
+	  CLOSE Cur_Nombre;
+         
+      IF (p_LISTAVALORES_ID = 0) THEN
+	      
+		    
+         IF (v_NombreNuevo IS NOT NULL) THEN
+		     p_RESULTADO := 1;
+	  
+	     ELSE		 
+        
+	           INSERT INTO TBL_LISTAVALORES(
+	                       LISTAVALORES_ID,
+	                       NOMBRE, 
+	                       DESCRIPCION, 
+	                       TIPO, 
+	                       INGRESADOPOR, 
+	                       MODIFICADOPOR)
+	           VALUES(
+	                       SQ_LISTAVALORES.NEXTVAL,
+	                       p_NOMBRE, 
+	                       p_DESCRIPCION, 
+	                       p_TIPO, 
+	                       p_USUARIOCONECTADO, 
+	                       p_USUARIOCONECTADO);
+	                       
+	                       COMMIT;
+		 END IF;		
+		 		   
+      ELSE
+	         SELECT NOMBRE INTO v_NombreActual FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID = p_LISTAVALORES_ID;
+             IF ((v_NombreNuevo IS NOT NULL) AND (v_NombreActual <> p_NOMBRE)) THEN
+			      p_RESULTADO := 1;
+	  
+	         ELSE		 
+		
+	             UPDATE TBL_LISTAVALORES SET             
+	             NOMBRE                = p_NOMBRE,  
+	             DESCRIPCION           = p_DESCRIPCION, 
+	             MODIFICADOPOR         = p_USUARIOCONECTADO,
+	             FECHAMODIFICACION     = SYSDATE
+	             WHERE LISTAVALORES_ID = p_LISTAVALORES_ID;
+	        
+	             COMMIT;
+             END IF;
+      END IF;
+                    
+      EXCEPTION
+      WHEN OTHERS THEN
+      p_RESULTADO := SUBSTR(SQLCODE,1,20);
+    
+             
+END SPR_IU_LISTAVALORES;
+/
+CREATE OR REPLACE PROCEDURE SPR_IU_Mantenimiento(
+p_MANTENIMIENTO_ID       IN TBL_MANTENIMIENTO.MANTENIMIENTO_ID%TYPE,
+p_EQUIPO_ID              IN TBL_MANTENIMIENTO.EQUIPO_ID%TYPE,
+p_OPERARIO_ID            IN TBL_MANTENIMIENTO.OPERARIO_ID%TYPE,
+p_FECHA                  IN TBL_MANTENIMIENTO.FECHA%TYPE,
+p_OBSERVACIONES          IN TBL_MANTENIMIENTO.OBSERVACIONES%TYPE,
+p_USUARIOCONECTADO  	 IN TBL_MANTENIMIENTO.INGRESADOPOR%TYPE,
+p_RESULTADO              OUT NUMERIC )
+  
+IS
+
+CURSOR Cur_Mantenimiento IS
+SELECT OPERARIO_ID, FECHA
+FROM TBL_MANTENIMIENTO 
+WHERE OPERARIO_ID = p_OPERARIO_ID 
+AND FECHA = p_FECHA;
+
+CURSOR Cur_Equipo IS
+SELECT EQUIPO_ID
+FROM TBL_MANTENIMIENTO 
+WHERE EQUIPO_ID = p_EQUIPO_ID; 
+
+
+v_OperarioActual TBL_MANTENIMIENTO.OPERARIO_ID%TYPE:= null;
+v_OperarioNuevo  TBL_MANTENIMIENTO.OPERARIO_ID%TYPE:= null;
+v_FechaActual    TBL_MANTENIMIENTO.FECHA%TYPE:= null;
+v_FechaNueva     TBL_MANTENIMIENTO.FECHA%TYPE:= null;
+v_Equipo         TBL_MANTENIMIENTO.EQUIPO_ID%TYPE:= null;
+v_FechaPrestamo  TBL_MANTENIMIENTO.FECHA%TYPE:= null;
+
+BEGIN
+      p_RESULTADO := 0;
+
+	  -- v_FechaPrestamo:= TO_DATE(p_FECHA,'dd/MM/yyyy');
+
+	  -- Validar que no exista el nombre que envían como parámetro
+	  OPEN Cur_Mantenimiento;
+	  FETCH Cur_Mantenimiento INTO v_OperarioNuevo, v_FechaNueva;
+	  CLOSE Cur_Mantenimiento;
+	  
+	  OPEN Cur_Equipo;
+	  FETCH Cur_Equipo INTO v_Equipo;
+	  CLOSE Cur_Equipo;				 
+			 		 				 
+			 	 
+      IF (p_MANTENIMIENTO_ID = 0) THEN
+	  
+         IF (v_OperarioNuevo IS NOT NULL AND v_FechaNueva IS NOT NULL) THEN 
+		     p_RESULTADO := 1;
+		 ELSIF (v_Equipo IS NOT NULL) THEN 
+		     p_RESULTADO := 2;	 
+		 ELSE	 
+		        INSERT INTO TBL_MANTENIMIENTO(
+		                    MANTENIMIENTO_ID,
+							EQUIPO_ID, 
+		                    OPERARIO_ID, 
+		                    FECHA, 
+		                    OBSERVACIONES, 
+		                    INGRESADOPOR, 
+		                    MODIFICADOPOR)
+		           VALUES(
+				            SQ_MANTENIMIENTO.NEXTVAL,
+		                    p_EQUIPO_ID, 
+		                    p_OPERARIO_ID, 
+		                    p_FECHA,
+		                    p_OBSERVACIONES, 
+		                    p_USUARIOCONECTADO,
+		                    p_USUARIOCONECTADO);
+		                    
+							COMMIT;
+	     END IF;
+		  						   
+        ELSE	
+		     IF (v_OperarioNuevo IS NOT NULL) THEN 	   
+		        SELECT OPERARIO_ID, FECHA INTO v_OperarioActual, v_FechaActual FROM TBL_MANTENIMIENTO WHERE EQUIPO_ID = p_EQUIPO_ID;
+			    IF (v_OperarioActual <> p_OPERARIO_ID) THEN
+			       p_RESULTADO := 1;
+		        ELSIF ((v_OperarioActual = p_OPERARIO_ID) AND (v_FechaActual <> p_FECHA)) THEN
+			          p_RESULTADO := 1;	
+			    ELSE
+	                UPDATE TBL_MANTENIMIENTO SET                          
+	                OPERARIO_ID            = p_OPERARIO_ID,
+	                FECHA                  = p_FECHA,
+	                OBSERVACIONES          = p_OBSERVACIONES,
+	                FECHAMODIFICACION  	   = SYSDATE
+	                WHERE MANTENIMIENTO_ID = p_MANTENIMIENTO_ID;   
+	            
+	                COMMIT;		      		  
+			    END IF;	  
+		     ELSE
+	                UPDATE TBL_MANTENIMIENTO SET                          
+	                OPERARIO_ID            = p_OPERARIO_ID,
+	                FECHA                  = p_FECHA,
+	                OBSERVACIONES          = p_OBSERVACIONES,
+	                FECHAMODIFICACION  	   = SYSDATE
+	                WHERE MANTENIMIENTO_ID = p_MANTENIMIENTO_ID;   
+	            
+	                COMMIT;
+		     END IF;	 
+                              
+        END IF;               
+        
+        EXCEPTION
+        WHEN OTHERS THEN
+        p_RESULTADO := SUBSTR(SQLCODE,1,20);
+                 
+END SPR_IU_Mantenimiento;
+/
+
+CREATE OR REPLACE PROCEDURE SPR_IU_Operarios(
+p_OPERARIO_ID             IN TBL_OPERARIOS.OPERARIO_ID%TYPE,
+p_DOCUMENTO               IN TBL_OPERARIOS.DOCUMENTO%TYPE,
+p_NOMBRES                 IN TBL_OPERARIOS.NOMBRES%TYPE,
+p_APELLIDOS               IN TBL_OPERARIOS.APELLIDOS%TYPE,
+p_TELEFONO                IN TBL_OPERARIOS.TELEFONO%TYPE,
+p_CORREO                  IN TBL_OPERARIOS.CORREO%TYPE,
+p_FOTO                    IN TBL_OPERARIOS.FOTO%TYPE,
+p_USUARIOCONECTADO        IN TBL_OPERARIOS.INGRESADOPOR%TYPE,
+p_RESULTADO               OUT NUMERIC )
+
+IS
+
+v_Documento TBL_OPERARIOS.DOCUMENTO%TYPE:= null;
+v_ClaveGenerica TBL_OPERARIOS.CLAVE%TYPE:= null;
+
+CURSOR Cur_Documento IS
+SELECT DOCUMENTO
+FROM   TBL_OPERARIOS
+WHERE  DOCUMENTO  = p_DOCUMENTO;
+
+
+BEGIN
+      p_RESULTADO := 0;
+
+      IF (p_OPERARIO_ID = 0) THEN
+	     -- Validar que no exista el documento que envían como parámetro
+		 OPEN Cur_Documento;
+		 FETCH Cur_Documento INTO v_Documento;
+		 CLOSE Cur_Documento;
+            
+         IF (v_Documento IS NOT NULL) THEN
+		     p_RESULTADO := 1;
+	  
+	     ELSE		
+		       v_ClaveGenerica:= SUBSTR(p_DOCUMENTO,1,6) ||'00';
+			   
+		       INSERT INTO TBL_OPERARIOS(
+			                   OPERARIO_ID,
+		                       DOCUMENTO, 
+		                       NOMBRES, 
+		                       APELLIDOS, 
+		                       TELEFONO, 
+		                       CORREO,	
+		                       CLAVE,	                       
+		                       FOTO, 
+		                       INGRESADOPOR, 
+		                       MODIFICADOPOR)
+		           VALUES(
+				               SQ_OPERARIOS.NEXTVAL,
+		                       p_DOCUMENTO, 
+		                       INITCAP(p_NOMBRES), 
+		                       INITCAP(p_APELLIDOS), 
+		                       p_TELEFONO, 
+		                       p_CORREO,
+		                       DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>v_ClaveGenerica,key_string=>'simi2020'), 
+		                       p_FOTO, 
+		                       p_USUARIOCONECTADO,
+		                       p_USUARIOCONECTADO);
+		                       
+	                       COMMIT;
+	     END IF;				   
+							   
+        ELSE
+               UPDATE TBL_OPERARIOS SET             
+               NOMBRES            = INITCAP(p_NOMBRES),  
+               APELLIDOS          = INITCAP(p_APELLIDOS), 
+               TELEFONO           = p_TELEFONO, 
+               CORREO             = p_CORREO,
+               FOTO               = p_FOTO,
+               MODIFICADOPOR      = p_USUARIOCONECTADO,
+               FECHAMODIFICACION  = SYSDATE
+               WHERE OPERARIO_ID  = p_OPERARIO_ID;
+               
+               COMMIT;
+                              
+        END IF;               
+        
+        EXCEPTION
+        WHEN OTHERS THEN
+        p_RESULTADO := SUBSTR(SQLCODE,1,20);
+    
+             
+END SPR_IU_Operarios;
+/
+
+CREATE OR REPLACE PROCEDURE SPR_R_BuscarRegistro
+(
+  p_TABLA       IN  VARCHAR2,
+  p_DATOBUSCAR  IN  NUMERIC,  
+  Out_Data      OUT SYS_REFCURSOR
+)
+
+IS    
+
+BEGIN
+      IF(p_TABLA = 'TBL_OPERARIOS') THEN
+         OPEN Out_Data for
+         SELECT OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, FOTO FROM TBL_OPERARIOS WHERE OPERARIO_ID = p_DATOBUSCAR;     
+      ELSIF (p_TABLA = 'TBL_EQUIPOS') THEN
+             OPEN Out_Data for
+             SELECT * FROM TBL_EQUIPOS WHERE EQUIPO_ID =  p_DATOBUSCAR;                                        
+      ELSIF (p_TABLA = 'TBL_LISTAVALORES') THEN
+                 OPEN Out_Data for
+                 SELECT * FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID =  p_DATOBUSCAR;                        
+      ELSIF (p_TABLA = 'TBL_MANTENIMIENTO') THEN
+             OPEN Out_Data for
+             SELECT * FROM TBL_MANTENIMIENTO WHERE MANTENIMIENTO_ID =  p_DATOBUSCAR;
+
+      END IF;   
+      
+END SPR_R_BuscarRegistro;
+/
+CREATE OR REPLACE PROCEDURE SPR_R_CargarCombosListas
+(
+  p_TABLA      IN  VARCHAR2,
+  Out_Data     OUT SYS_REFCURSOR
+)
+
+AS    
+BEGIN
+      IF (p_TABLA = 'PROGRAMACION') THEN       
+             OPEN Out_Data for    
+             SELECT E.EQUIPO_ID, (E.NOMBRE_EQUIPO ||' '|| E.SERIE) AS EQUIPO, 'EQUIPOS' AS TIPO 
+             FROM  TBL_MANTENIMIENTO M
+			 INNER JOIN TBL_EQUIPOS E ON M.EQUIPO_ID=E.EQUIPO_ID
+     		 UNION ALL(
+			 SELECT OPERARIO_ID, (DOCUMENTO ||' '||  NOMBRES ||' '|| APELLIDOS) AS NOMBRECOMPLETO, 'OPERARIOS' FROM TBL_OPERARIOS)
+			 ORDER BY TIPO;
+      ELSIF (p_TABLA = 'PROGRAMAR') THEN
+             OPEN Out_Data for        
+             SELECT EQUIPO_ID, (NOMBRE_EQUIPO ||' '|| SERIE) AS EQUIPO, 'EQUIPOS' AS TIPO 
+			 FROM 
+			 TBL_EQUIPOS
+			 WHERE (NOT EXISTS
+                    (SELECT EQUIPO_ID
+                     FROM   TBL_MANTENIMIENTO
+                     WHERE  (TBL_EQUIPOS.EQUIPO_ID = EQUIPO_ID))) AND (LUBRICACION = 1)
+             UNION ALL(
+             SELECT OPERARIO_ID, (DOCUMENTO ||' '||  NOMBRES ||' '|| APELLIDOS) AS NOMBRECOMPLETO, 'OPERARIOS' FROM TBL_OPERARIOS)
+             ORDER BY TIPO;
+       ELSIF (p_TABLA = 'CONTROLEQUIPOS') THEN
+               OPEN Out_Data for        
+               SELECT  LISTAVALORES_ID, NOMBRE, TIPO
+               FROM TBL_LISTAVALORES              
+               ORDER BY TIPO;             
+      END IF;
+     
+END SPR_R_CargarCombosListas;
+/
+
+CREATE OR REPLACE PROCEDURE SPR_R_CargarListado
+(
+  p_TABLA       IN  VARCHAR2, 
+  p_CONDICION   IN  VARCHAR2,
+  Out_Data      OUT SYS_REFCURSOR
+)
+
+IS    
+
+BEGIN
+      IF(p_TABLA = 'TBL_OPERARIOS') THEN
+         IF (p_CONDICION IS NOT NULL) THEN
+             OPEN Out_Data for
+             SELECT OPERARIO_ID, DOCUMENTO, (NOMBRES ||' '|| APELLIDOS) AS NOMBRE_COMPLETO, TELEFONO, CORREO, FOTO  FROM TBL_OPERARIOS WHERE  DOCUMENTO = p_CONDICION;
+         ELSE
+             OPEN Out_Data for
+             SELECT OPERARIO_ID, DOCUMENTO, (NOMBRES ||' '|| APELLIDOS) AS NOMBRE_COMPLETO, TELEFONO, CORREO, FOTO  FROM TBL_OPERARIOS;
+         END IF;  
+	  ELSIF (p_TABLA = 'MARCAS') THEN
+              IF (p_CONDICION IS NOT NULL) THEN	       
+                  OPEN Out_Data for
+				  SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, TIPO, ' ', ' ' FROM TBL_LISTAVALORES WHERE TIPO ='MARCAS' AND NOMBRE = p_CONDICION;
+			  ELSE
+                  OPEN Out_Data for
+                  SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, TIPO, ' ', ' ' FROM TBL_LISTAVALORES WHERE TIPO ='MARCAS';
+              END IF;	  
+	  ELSIF (p_TABLA = 'LINEAS') THEN
+              IF (p_CONDICION IS NOT NULL) THEN	       
+                  OPEN Out_Data for
+				  SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, TIPO, ' ', ' ' FROM TBL_LISTAVALORES WHERE TIPO ='LINEAS' AND NOMBRE = p_CONDICION;
+			  ELSE
+                  OPEN Out_Data for
+                  SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, TIPO, ' ', ' ' FROM TBL_LISTAVALORES WHERE TIPO ='LINEAS';
+              END IF;
+	  ELSIF (p_TABLA = 'TBL_EQUIPOS') THEN
+              IF (p_CONDICION IS NOT NULL) THEN	       
+                  OPEN Out_Data for
+				  SELECT EQ.EQUIPO_ID, 
+                         EQ.SERIE,
+                         EQ.NOMBRE_EQUIPO,                           
+						 TV1.NOMBRE AS MARCA,
+						 TV2.NOMBRE AS LINEA,
+                         CASE
+                             WHEN EQ.LUBRICACION = 1 THEN 'SI'
+                             ELSE 'NO' 
+                         END AS LUBRICACION		
+                    FROM TBL_EQUIPOS EQ
+					INNER JOIN TBL_LISTAVALORES TV1 ON TV1.LISTAVALORES_ID = EQ.MARCA 
+					INNER JOIN TBL_LISTAVALORES TV2 ON TV2.LISTAVALORES_ID = EQ.LINEA 
+                    WHERE (NOT EXISTS
+                          (SELECT EQUIPO_ID
+                           FROM   TBL_MANTENIMIENTO
+                           WHERE  (EQ.EQUIPO_ID = EQUIPO_ID)) AND SERIE = p_CONDICION);				
+			  ELSE
+                  OPEN Out_Data for
+                  SELECT EQ.EQUIPO_ID, 
+                         EQ.SERIE,
+                         EQ.NOMBRE_EQUIPO,                           
+						 TV1.NOMBRE AS MARCA,
+						 TV2.NOMBRE AS LINEA,
+                         CASE
+                             WHEN EQ.LUBRICACION = 1 THEN 'SI'
+                             ELSE 'NO' 
+                         END AS LUBRICACION		
+                    FROM TBL_EQUIPOS EQ
+					INNER JOIN TBL_LISTAVALORES TV1 ON TV1.LISTAVALORES_ID = EQ.MARCA 
+					INNER JOIN TBL_LISTAVALORES TV2 ON TV2.LISTAVALORES_ID = EQ.LINEA 
+                    WHERE (NOT EXISTS
+                          (SELECT EQUIPO_ID
+                           FROM   TBL_MANTENIMIENTO
+                           WHERE  (EQ.EQUIPO_ID = EQUIPO_ID)));						
+              END IF;	
+	  ELSIF (p_TABLA = 'TBL_MANTENIMIENTO') THEN
+              IF (p_CONDICION IS NOT NULL) THEN	       
+                  OPEN Out_Data for
+				  SELECT  M.MANTENIMIENTO_ID, E.SERIE, E.NOMBRE_EQUIPO, M.FECHA, (O.DOCUMENTO  ||' - '||  O.NOMBRES  ||' - '||  O.APELLIDOS) AS OPERARIO, ' ' 
+				  FROM TBL_MANTENIMIENTO M
+				  INNER JOIN TBL_EQUIPOS E ON E.EQUIPO_ID = M.EQUIPO_ID
+				  INNER JOIN TBL_OPERARIOS O ON O.OPERARIO_ID = M.OPERARIO_ID
+			      WHERE E.SERIE = p_CONDICION;
+			  ELSE
+                  OPEN Out_Data for
+                  SELECT M.MANTENIMIENTO_ID, E.SERIE, E.NOMBRE_EQUIPO, M.FECHA, (O.DOCUMENTO  ||' - '||  O.NOMBRES  ||' - '||  O.APELLIDOS) AS OPERARIO, ' '  
+				  FROM TBL_MANTENIMIENTO M
+				  INNER JOIN TBL_EQUIPOS E ON E.EQUIPO_ID = M.EQUIPO_ID
+				  INNER JOIN TBL_OPERARIOS O ON O.OPERARIO_ID = M.OPERARIO_ID;
+              END IF;	
+      END IF;
+END SPR_R_CargarListado;
+/
+
+CREATE OR REPLACE PROCEDURE SPR_R_ObtenerAcceso
+(
+  p_DOCUMENTO  IN  VARCHAR2, 
+  p_CLAVE      IN  NUMBER,
+  Out_Data     OUT SYS_REFCURSOR
+)
+
+IS    
+  v_ClaveEnviada    varchar2(8):= null;
+  v_ClaveAlmacenada varchar2(8):= null;
+  
+BEGIN
+
+      v_ClaveEnviada := TO_CHAR(p_CLAVE)||'00';	   	   
+	  
+      OPEN Out_Data for
+      SELECT OPERARIO_ID, NOMBRES, APELLIDOS, PERFIL 
+	  FROM TBL_OPERARIOS 
+	  WHERE DOCUMENTO =  p_DOCUMENTO 
+	  AND v_ClaveEnviada =  (SELECT dbms_obfuscation_toolkit.DESDecrypt (input_string => CLAVE, key_string => 'simi2020')
+	  FROM TBL_OPERARIOS WHERE DOCUMENTO =  p_DOCUMENTO);
+	  
+END SPR_R_ObtenerAcceso;
+/
+
+CREATE OR REPLACE PROCEDURE SPR_U_CambioClave
+(
+  p_OPERARIO_ID           IN  TBL_OPERARIOS.OPERARIO_ID%TYPE,
+  p_CLAVE_ANTERIOR        IN  NUMBER,
+  p_CLAVE_NUEVA           IN  NUMBER,      
+  p_RESULTADO             OUT NUMERIC
+)
+
+AS    
+
+v_DatoExiste      NUMBER:=  0;
+v_ClaveAntigua    varchar2(8):= null;
+v_ClaveNueva      varchar2(8):= null; 
+
+BEGIN
+
+      p_RESULTADO := 0;     
+      v_ClaveAntigua := TO_CHAR(p_CLAVE_ANTERIOR)||'00';	
+	  v_ClaveNueva := TO_CHAR(p_CLAVE_NUEVA)||'00';
+	   
+	  SELECT COUNT(*) INTO v_DatoExiste
+	  FROM TBL_OPERARIOS 
+	  WHERE OPERARIO_ID =  p_OPERARIO_ID
+	  AND  dbms_obfuscation_toolkit.DESDecrypt( input_string => CLAVE, key_string => 'simi2020') = v_ClaveAntigua; 
+	   
+	  IF (v_DatoExiste = 0) THEN
+          p_RESULTADO := 1;    
+      ELSE
+          
+          UPDATE TBL_OPERARIOS SET             
+          CLAVE                = DBMS_OBFUSCATION_TOOLKIT.DESEncrypt(input_string=>v_ClaveNueva,key_string=>'simi2020'),
+          MODIFICADOPOR        = p_OPERARIO_ID,
+          FECHAMODIFICACION    = SYSDATE
+          WHERE OPERARIO_ID    = p_OPERARIO_ID;
+          
+          COMMIT;    
+      END IF;
+         
+      EXCEPTION
+      WHEN OTHERS THEN
+      p_RESULTADO := SUBSTR(SQLCODE,1,20);
+        
+END  SPR_U_CambioClave;
+/
+
