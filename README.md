@@ -17,4 +17,4 @@ Está implementado en:
 
 •	VB6
 
-No descargues todo el contenido, descarga solo en el lenguaje que tengas instalado, cada uno está aparte comprimido en zip.
+No descargues todo el contenido, descarga solo en el lenguaje que tengas instalado, cada uno está aparte comprimido en zip. En la carpeta BD está la base de datos en tres motores.
