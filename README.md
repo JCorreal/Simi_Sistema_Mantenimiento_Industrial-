@@ -16,3 +16,5 @@ Está implementado en:
 •	Delphi (Lazarus) 
 
 •	VB6
+
+No descargues todo el contenido, descarga solo en el lenguaje que tengas instalado, cada uno está aparte comprimido en zip.
