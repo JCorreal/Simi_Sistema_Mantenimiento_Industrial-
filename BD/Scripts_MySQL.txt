@@ -70,34 +70,34 @@ CREATE TABLE tbl_mantenimiento (
   CONSTRAINT FK_OPERARIO_ID FOREIGN KEY (OPERARIO_ID) REFERENCES tbl_operarios (OPERARIO_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Estructura que almacenara toda la informacion relacionada con las programaciones de mantenimiento a los diferentes equipos';
 
-INSERT INTO TBL_OPERARIOS(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, PERFIL, INGRESADOPOR, MODIFICADOPOR) 
+INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, PERFIL, INGRESADOPOR, MODIFICADOPOR) 
 VALUES ('123456', 'Admin', 'Admin', '1234567', 'correo@yahoo.com', AES_ENCRYPT(123456, 'simi2020'), 1, 1, 1);
 
-INSERT INTO TBL_OPERARIOS(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
-VALUES ('32499321', 'Valentina', 'Otero', '3108971480', 'valen_oter@gmail.com', AES_ENCRYPT(324993, 'simi2020'), '32499321.jpg', 1, 1);
+INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+VALUES ('32499321', 'Valentina', 'Otero', '3108971480', 'valen_oter@gmail.com', AES_ENCRYPT(123456, 'simi2020'), '32499321.jpg', 1, 1);
 
-INSERT INTO TBL_OPERARIOS(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO,  INGRESADOPOR, MODIFICADOPOR) 
+INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO,  INGRESADOPOR, MODIFICADOPOR) 
 VALUES ('43633198', 'Patricia', 'Jaramillo', '3208971520', 'patri@hotmail.com', AES_ENCRYPT(436331, 'simi2020'), '43633198.jpg', 1, 1);
 
-INSERT INTO TBL_OPERARIOS(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
 VALUES ('71675402', 'Oscar', 'Gallardo', '3008971983', 'ocgal@yahoo.com', AES_ENCRYPT(716754, 'simi2020'), '71675402.jpg', 1, 1);
 
-INSERT INTO TBL_OPERARIOS(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
 VALUES ('71685009', 'Felipe', 'Giraldo', '3108971252', 'fepeg@yahoo.com', AES_ENCRYPT(716850, 'simi2020'), '71685009.jpg', 1, 1);
 
-INSERT INTO TBL_OPERARIOS(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
 VALUES ('98375421', 'Juan', 'Villareal', '3168971787', 'juan_villa@yahoo.com', AES_ENCRYPT(983754, 'simi2020'), '98375421.jpg', 1, 1);
 
-INSERT INTO TBL_OPERARIOS(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
+INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) 
 VALUES ('98490355', 'Jorge', 'Carrillo', '3108971412', 'jorgeca@yahoo.es', AES_ENCRYPT(984903, 'simi2020'), '98490355.jpg', 1, 1);
 
-INSERT INTO TBL_LISTAVALORES(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('SIEMENS','MARCAS','PROVEEDOR SIEMENS',1,1);
-INSERT INTO TBL_LISTAVALORES(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('RICOH','MARCAS','PROVEEDOR RICOH',1,1);
-INSERT INTO TBL_LISTAVALORES(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('ACABADOS','LINEAS','PLANTA DE ACABADOS',1,1);
-INSERT INTO TBL_LISTAVALORES(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('ENSAMBLE','LINEAS','PLANTA DE ENSAMBLE',1,1);
+INSERT INTO tbl_listavalores(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('SIEMENS','MARCAS','PROVEEDOR SIEMENS',1,1);
+INSERT INTO tbl_listavalores(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('RICOH','MARCAS','PROVEEDOR RICOH',1,1);
+INSERT INTO tbl_listavalores(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('ACABADOS','LINEAS','PLANTA DE ACABADOS',1,1);
+INSERT INTO tbl_listavalores(NOMBRE,TIPO,DESCRIPCION,INGRESADOPOR,MODIFICADOPOR) VALUES('ENSAMBLE','LINEAS','PLANTA DE ENSAMBLE',1,1);
 
-INSERT INTO TBL_EQUIPOS (NOMBRE_EQUIPO,MARCA,SERIE,LINEA,LUBRICACION,INGRESADOPOR,MODIFICADOPOR) VALUES ('EQUIPO DESPALETIZADOR',1,'EDPA2045',3,1,1,1);
-INSERT INTO TBL_EQUIPOS (NOMBRE_EQUIPO,MARCA,SERIE,LINEA,LUBRICACION,INGRESADOPOR,MODIFICADOPOR) VALUES ('EQUIPO DESPRESURIZADOR',2,'EDPU2087',4,1, 1,1);
+INSERT INTO tbl_equipos (NOMBRE_EQUIPO,MARCA,SERIE,LINEA,LUBRICACION,INGRESADOPOR,MODIFICADOPOR) VALUES ('EQUIPO DESPALETIZADOR',1,'EDPA2045',3,1,1,1);
+INSERT INTO tbl_equipos (NOMBRE_EQUIPO,MARCA,SERIE,LINEA,LUBRICACION,INGRESADOPOR,MODIFICADOPOR) VALUES ('EQUIPO DESPRESURIZADOR',2,'EDPU2087',4,1, 1,1);
 
  
 CREATE PROCEDURE SPR_D_Registro(
@@ -110,22 +110,22 @@ BEGIN
 
       DECLARE Cur_Mantenimiento1 CURSOR FOR
       SELECT OPERARIO_ID
-      FROM   TBL_MANTENIMIENTO
+      FROM   tbl_mantenimiento
       WHERE  OPERARIO_ID = p_CONDICION LIMIT 1;
       
       DECLARE Cur_Mantenimiento2 CURSOR FOR
       SELECT OPERARIO_ID
-      FROM   TBL_MANTENIMIENTO
+      FROM   tbl_mantenimiento
       WHERE  EQUIPO_ID  = p_CONDICION;
       
       DECLARE Cur_Equipos1 CURSOR FOR
       SELECT LINEA
-      FROM   TBL_EQUIPOS
+      FROM   tbl_equipos
       WHERE  LINEA  = p_CONDICION LIMIT 1;
       
       DECLARE Cur_Equipos2 CURSOR FOR
       SELECT MARCA
-      FROM   TBL_EQUIPOS
+      FROM   tbl_equipos
       WHERE  MARCA  = p_CONDICION LIMIT 1;
 
       DECLARE CONTINUE HANDLER FOR NOT FOUND SET CURVACIO = 1;
@@ -141,7 +141,7 @@ BEGIN
          IF (v_DatoExiste IS NOT NULL) THEN
              SET p_RESULTADO = 1;
          ELSE
-             DELETE FROM TBL_OPERARIOS WHERE OPERARIO_ID = p_CONDICION;
+             DELETE FROM tbl_operarios WHERE OPERARIO_ID = p_CONDICION;
          END IF;		 
       ELSEIF (p_TABLA = 'TBL_EQUIPOS')  THEN              
               SET CURVACIO = 0;	       
@@ -151,7 +151,7 @@ BEGIN
               IF (v_DatoExiste IS NOT NULL) THEN
                   SET p_RESULTADO = 1;
               ELSE    
-                   DELETE FROM TBL_EQUIPOS WHERE EQUIPO_ID = p_CONDICION;
+                   DELETE FROM tbl_equipos WHERE EQUIPO_ID = p_CONDICION;
               END IF;		 
       ELSEIF (p_TABLA = 'TBL_LISTAVALORES' ) THEN
               SET CURVACIO = 0;
@@ -167,11 +167,11 @@ BEGIN
                   IF (v_DatoExiste IS NOT NULL) THEN
                       SET p_RESULTADO = 1;		     	 
                   ELSE
-                       DELETE FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID = p_CONDICION;
+                       DELETE FROM tbl_listavalores WHERE LISTAVALORES_ID = p_CONDICION;
               	  END IF;	 
 			 END IF;		 
       ELSEIF (p_TABLA = 'TBL_MANTENIMIENTO') THEN
-              INSERT INTO TBL_RESPALDO(EQUIPO_ID,
+              INSERT INTO tbl_respaldo(EQUIPO_ID,
                                        OPERARIO_ID,
                                        FECHA,
                                        OBSERVACIONES,
@@ -188,9 +188,9 @@ BEGIN
                                        MODIFICADOPOR,
                                        FECHAINGRESO,
                                        FECHAMODIFICACION
-                                       FROM TBL_MANTENIMIENTO
+                                       FROM tbl_mantenimiento
                                        WHERE MANTENIMIENTO_ID = p_CONDICION; 
-             DELETE FROM TBL_MANTENIMIENTO WHERE MANTENIMIENTO_ID = p_CONDICION;             
+             DELETE FROM tbl_mantenimiento WHERE MANTENIMIENTO_ID = p_CONDICION;             
       END IF;
 
       
@@ -214,7 +214,7 @@ BEGIN
       
      DECLARE Cur_Serie CURSOR FOR
      SELECT SERIE
-     FROM   TBL_EQUIPOS
+     FROM   tbl_equipos
      WHERE  SERIE  = p_SERIE;
  
      DECLARE EXIT HANDLER FOR SQLEXCEPTION SET p_RESULTADO = 2;
@@ -222,7 +222,7 @@ BEGIN
  
      SET p_RESULTADO = 0;
      
-     -- Validar que no exista la serie que env?an como par?metro
+     -- Validar que no exista la serie que envian como parametro
      SET CURVACIO = 0; 
 		 OPEN Cur_Serie;
 		 FETCH Cur_Serie INTO v_SerieNueva;
@@ -233,7 +233,7 @@ BEGIN
 		          SET p_RESULTADO = 1;
 	        ELSE		
               START TRANSACTION;
-              INSERT INTO TBL_EQUIPOS(
+              INSERT INTO tbl_equipos(
                               NOMBRE_EQUIPO, 
                               MARCA,  
                               SERIE, 
@@ -254,22 +254,22 @@ BEGIN
                               COMMIT;
           END IF;                    
       ELSE
-          SELECT SERIE INTO v_SerieActual FROM TBL_EQUIPOS WHERE EQUIPO_ID = p_EQUIPO_ID;
+          SELECT SERIE INTO v_SerieActual FROM tbl_equipos WHERE EQUIPO_ID = p_EQUIPO_ID;
 			    IF ((v_SerieNueva IS NOT NULL) AND (v_SerieActual <> p_SERIE)) THEN
 			         SET p_RESULTADO = 1;	  
 	        ELSE		 
-		          START TRANSACTION;
-               UPDATE TBL_EQUIPOS SET             
-               NOMBRE_EQUIPO      = UPPER(p_NOMBRE_EQUIPO),  
-               MARCA              = p_MARCA, 
-               SERIE              = UPPER(p_SERIE), 
-               LINEA              = p_LINEA, 
-               LUBRICACION        = p_LUBRICACION,
-               MODIFICADOPOR      = p_USUARIOCONECTADO,
-               FECHAMODIFICACION  = NOW()
-               WHERE EQUIPO_ID    = p_EQUIPO_ID;
-               
-              COMMIT;
+		           START TRANSACTION;
+                   UPDATE tbl_equipos SET             
+                   NOMBRE_EQUIPO      = UPPER(p_NOMBRE_EQUIPO),  
+                   MARCA              = p_MARCA, 
+                   SERIE              = UPPER(p_SERIE), 
+                   LINEA              = p_LINEA, 
+                   LUBRICACION        = p_LUBRICACION,
+                   MODIFICADOPOR      = p_USUARIOCONECTADO,
+                   FECHAMODIFICACION  = NOW()
+                   WHERE EQUIPO_ID    = p_EQUIPO_ID;
+                   
+                  COMMIT;
           END IF;                    
     END IF;               
                     
@@ -289,7 +289,7 @@ BEGIN
       
       DECLARE Cur_Nombre CURSOR FOR
       SELECT NOMBRE
-      FROM   TBL_LISTAVALORES
+      FROM   tbl_listavalores
       WHERE  NOMBRE  = p_NOMBRE;
       
       DECLARE EXIT HANDLER FOR SQLEXCEPTION SET p_RESULTADO = 2;
@@ -297,7 +297,7 @@ BEGIN
  
       SET p_RESULTADO = 0;
       
-      -- Validar que no exista el nombre que env?an como par?metro
+      -- Validar que no exista el nombre que envian como parametro
       SET CURVACIO = 0;
       OPEN Cur_Nombre;
       FETCH Cur_Nombre INTO v_NombreNuevo;
@@ -308,7 +308,7 @@ BEGIN
 		          SET p_RESULTADO = 1;      
 	        ELSE		       
               START TRANSACTION;
-                INSERT INTO TBL_LISTAVALORES(                       
+                INSERT INTO tbl_listavalores(                       
                             NOMBRE, 
                             DESCRIPCION, 
                             TIPO, 
@@ -324,12 +324,12 @@ BEGIN
               COMMIT;
           END IF;                
       ELSE
-           SELECT NOMBRE INTO v_NombreActual FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID = p_LISTAVALORES_ID;
+           SELECT NOMBRE INTO v_NombreActual FROM tbl_listavalores WHERE LISTAVALORES_ID = p_LISTAVALORES_ID;
            IF ((v_NombreNuevo IS NOT NULL) AND (v_NombreActual <> p_NOMBRE)) THEN
 			         SET p_RESULTADO = 1;	  
 	         ELSE		        
                 START TRANSACTION;
-                  UPDATE TBL_LISTAVALORES SET             
+                  UPDATE tbl_listavalores SET             
                   NOMBRE                 = p_NOMBRE,  
                   DESCRIPCION            = p_DESCRIPCION, 
                   MODIFICADOPOR          = p_USUARIOCONECTADO,
@@ -362,13 +362,13 @@ BEGIN
 
     DECLARE Cur_Mantenimiento CURSOR FOR
     SELECT OPERARIO_ID, FECHA
-    FROM TBL_MANTENIMIENTO 
+    FROM tbl_mantenimiento 
     WHERE OPERARIO_ID = p_OPERARIO_ID 
     AND FECHA = p_FECHA;
     
     DECLARE Cur_Equipo CURSOR FOR
     SELECT EQUIPO_ID
-    FROM TBL_MANTENIMIENTO 
+    FROM tbl_mantenimiento 
     WHERE EQUIPO_ID = p_EQUIPO_ID; 
     
     DECLARE EXIT HANDLER FOR SQLEXCEPTION SET p_RESULTADO = 2;
@@ -378,7 +378,7 @@ BEGIN
     
     -- Validar que no exista el nombre que env?an como par?metro
 	  SET CURVACIO = 0;
-    OPEN Cur_Mantenimiento;
+      OPEN Cur_Mantenimiento;
 	  FETCH Cur_Mantenimiento INTO v_OperarioNuevo, v_FechaNueva;
 	  CLOSE Cur_Mantenimiento;
     
@@ -389,7 +389,7 @@ BEGIN
               SET p_RESULTADO = 2; 
 		      ELSE  
                 START TRANSACTION;
-                INSERT INTO TBL_MANTENIMIENTO(
+                INSERT INTO tbl_mantenimiento(
                             EQUIPO_ID, 
                             OPERARIO_ID, 
                             FECHA, 
@@ -409,7 +409,7 @@ BEGIN
       ELSE
             IF (v_OperarioNuevo <> 0) THEN
                SELECT OPERARIO_ID, FECHA  INTO v_OperarioActual, v_FechaActual 
-               FROM TBL_MANTENIMIENTO 
+               FROM tbl_mantenimiento 
                WHERE EQUIPO_ID = p_EQUIPO_ID;
                IF (v_OperarioActual <> p_OPERARIO_ID) THEN
                   SET p_RESULTADO = 1;
@@ -417,7 +417,7 @@ BEGIN
                       SET p_RESULTADO = 1; /*Modificaron fecha pero con el mismo Operario*/
                ELSE
                     START TRANSACTION;
-                    UPDATE TBL_MANTENIMIENTO SET   
+                    UPDATE tbl_mantenimiento SET   
                     OPERARIO_ID            = p_OPERARIO_ID,
                     FECHA                  = p_FECHA,
                     OBSERVACIONES          = p_OBSERVACIONES,
@@ -428,7 +428,7 @@ BEGIN
                END IF;     
             ELSE
                  START TRANSACTION;
-                 UPDATE TBL_MANTENIMIENTO SET   
+                 UPDATE tbl_mantenimiento SET   
                  OPERARIO_ID            = p_OPERARIO_ID,
                  FECHA                  = p_FECHA,
                  OBSERVACIONES          = p_OBSERVACIONES,
@@ -448,13 +448,13 @@ IN p_TABLA      VARCHAR(20),
 IN p_DATOBUSCAR INT(4))
 BEGIN
        IF (p_TABLA = 'TBL_OPERARIOS') THEN
-           SELECT OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, FOTO FROM TBL_OPERARIOS WHERE OPERARIO_ID = p_DATOBUSCAR;          
+           SELECT OPERARIO_ID, DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, FOTO FROM tbl_operarios WHERE OPERARIO_ID = p_DATOBUSCAR;          
        ELSEIF (p_TABLA = 'TBL_LISTAVALORES') THEN
-               SELECT * FROM TBL_LISTAVALORES WHERE LISTAVALORES_ID = p_DATOBUSCAR;                   
+               SELECT * FROM tbl_listavalores WHERE LISTAVALORES_ID = p_DATOBUSCAR;                   
        ELSEIF (p_TABLA = 'TBL_MANTENIMIENTO') THEN
-               SELECT * FROM TBL_MANTENIMIENTO WHERE MANTENIMIENTO_ID = p_DATOBUSCAR;             
+               SELECT * FROM tbl_mantenimiento WHERE MANTENIMIENTO_ID = p_DATOBUSCAR;             
        ELSEIF (p_TABLA = 'TBL_EQUIPOS') THEN                           
-               SELECT * FROM TBL_EQUIPOS WHERE EQUIPO_ID = p_DATOBUSCAR;   
+               SELECT * FROM tbl_equipos WHERE EQUIPO_ID = p_DATOBUSCAR;   
       END IF;   
       
 END; 
@@ -475,7 +475,7 @@ BEGIN
       
       DECLARE Cur_Documento CURSOR FOR
       SELECT DOCUMENTO
-      FROM   TBL_OPERARIOS
+      FROM   tbl_operarios
       WHERE  DOCUMENTO = p_DOCUMENTO;
       
       DECLARE EXIT HANDLER FOR SQLEXCEPTION SET p_RESULTADO = 2;
@@ -494,7 +494,7 @@ BEGIN
               SET p_RESULTADO = 1; 
           ELSE  
               START TRANSACTION;
-                INSERT INTO TBL_OPERARIOS(
+                INSERT INTO tbl_operarios(
                                 DOCUMENTO, 
                                 NOMBRES, 
                                 APELLIDOS, 
@@ -519,7 +519,7 @@ BEGIN
           END IF;                   
       ELSE
             START TRANSACTION;
-               UPDATE TBL_OPERARIOS SET             
+               UPDATE tbl_operarios SET             
                NOMBRES            = p_NOMBRES,  
                APELLIDOS          = p_APELLIDOS, 
                TELEFONO           = p_TELEFONO, 
@@ -540,24 +540,24 @@ CREATE PROCEDURE SPR_R_CargarCombosListas(
 BEGIN
       IF (p_TABLA = 'PROGRAMACION') THEN
               SELECT E.EQUIPO_ID, CONCAT(E.NOMBRE_EQUIPO, " ", E.SERIE) AS EQUIPO, 'EQUIPOS' AS TIPO
-              FROM  TBL_MANTENIMIENTO M
-              INNER JOIN TBL_EQUIPOS E ON M.EQUIPO_ID=E.EQUIPO_ID
+              FROM  tbl_mantenimiento M
+              INNER JOIN tbl_equipos E ON M.EQUIPO_ID=E.EQUIPO_ID
               UNION ALL(
-              SELECT OPERARIO_ID, CONCAT(DOCUMENTO, " ", NOMBRES, " ", APELLIDOS) AS NOMBRECOMPLETO, 'OPERARIOS' FROM TBL_OPERARIOS)
+              SELECT OPERARIO_ID, CONCAT(DOCUMENTO, " ", NOMBRES, " ", APELLIDOS) AS NOMBRECOMPLETO, 'OPERARIOS' FROM tbl_operarios)
               ORDER BY TIPO;
       ELSEIF (p_TABLA = 'PROGRAMAR') THEN 
               SELECT EQUIPO_ID, CONCAT(NOMBRE_EQUIPO, " ", SERIE) AS EQUIPO, 'EQUIPOS' AS TIPO 
-              FROM  TBL_EQUIPOS
+              FROM  tbl_equipos
               WHERE     (NOT EXISTS
                           (SELECT     EQUIPO_ID
-                            FROM      TBL_MANTENIMIENTO
-                            WHERE     (TBL_EQUIPOS.EQUIPO_ID = EQUIPO_ID))) AND (LUBRICACION = 1)
+                            FROM      tbl_mantenimiento
+                            WHERE     (tbl_equipos.EQUIPO_ID = EQUIPO_ID))) AND (LUBRICACION = 1)
               UNION ALL(
-              SELECT OPERARIO_ID, CONCAT(DOCUMENTO, " ", NOMBRES, " ", APELLIDOS) AS NOMBRECOMPLETO, 'OPERARIOS' FROM TBL_OPERARIOS)
+              SELECT OPERARIO_ID, CONCAT(DOCUMENTO, " ", NOMBRES, " ", APELLIDOS) AS NOMBRECOMPLETO, 'OPERARIOS' FROM tbl_operarios)
               ORDER BY TIPO;
       ELSEIF (p_TABLA = 'CONTROLEQUIPOS') THEN                   
               SELECT  LISTAVALORES_ID, NOMBRE, TIPO
-              FROM TBL_LISTAVALORES              
+              FROM tbl_listavalores              
               ORDER BY TIPO;                          
       END IF;     
 END;
@@ -580,9 +580,9 @@ IN p_CONDICION  VARCHAR(50))
 BEGIN
       IF (p_TABLA = 'TBL_OPERARIOS') THEN
           IF (p_CONDICION <> '') THEN
-               SELECT OPERARIO_ID, DOCUMENTO, CONCAT(NOMBRES, " ", APELLIDOS) AS NOMBRE_COMPLETO, TELEFONO, CORREO, FOTO FROM TBL_OPERARIOS WHERE DOCUMENTO = p_CONDICION;  
+               SELECT OPERARIO_ID, DOCUMENTO, CONCAT(NOMBRES, " ", APELLIDOS) AS NOMBRE_COMPLETO, TELEFONO, CORREO, FOTO FROM tbl_operarios WHERE DOCUMENTO = p_CONDICION;  
           ELSE
-              SELECT OPERARIO_ID, DOCUMENTO, CONCAT(NOMBRES, " ", APELLIDOS) AS NOMBRE_COMPLETO, TELEFONO, CORREO, FOTO FROM TBL_OPERARIOS;  
+              SELECT OPERARIO_ID, DOCUMENTO, CONCAT(NOMBRES, " ", APELLIDOS) AS NOMBRE_COMPLETO, TELEFONO, CORREO, FOTO FROM tbl_operarios;  
           END IF;   
        ELSEIF (p_TABLA = 'TBL_EQUIPOS') THEN
                 IF (p_CONDICION <> '') THEN                    
@@ -595,12 +595,12 @@ BEGIN
           									   WHEN EQ.LUBRICACION = 1 THEN 'SI'
           								 ELSE 'NO' 
           							   END AS LUBRICACION		
-          							   FROM TBL_EQUIPOS EQ
-          							   INNER JOIN TBL_LISTAVALORES TV1 ON TV1.LISTAVALORES_ID = EQ.MARCA 
-          							   INNER JOIN TBL_LISTAVALORES TV2 ON TV2.LISTAVALORES_ID = EQ.LINEA 
+          							   FROM tbl_equipos EQ
+          							   INNER JOIN tbl_listavalores TV1 ON TV1.LISTAVALORES_ID = EQ.MARCA 
+          							   INNER JOIN tbl_listavalores TV2 ON TV2.LISTAVALORES_ID = EQ.LINEA 
           							   WHERE (NOT EXISTS
           							      	            (SELECT EQUIPO_ID
-              									             FROM   TBL_MANTENIMIENTO
+              									             FROM   tbl_mantenimiento
               									             WHERE  (EQ.EQUIPO_ID = EQUIPO_ID)));
                 ELSE
                    SELECT EQ.EQUIPO_ID, 
@@ -612,38 +612,38 @@ BEGIN
           								    WHEN EQ.LUBRICACION = 1 THEN 'SI'
           								ELSE 'NO' 
           							  END AS LUBRICACION		
-          							  FROM TBL_EQUIPOS EQ
-          							  INNER JOIN TBL_LISTAVALORES TV1 ON TV1.LISTAVALORES_ID = EQ.MARCA 
-          							  INNER JOIN TBL_LISTAVALORES TV2 ON TV2.LISTAVALORES_ID = EQ.LINEA 
+          							  FROM tbl_equipos EQ
+          							  INNER JOIN tbl_listavalores TV1 ON TV1.LISTAVALORES_ID = EQ.MARCA 
+          							  INNER JOIN tbl_listavalores TV2 ON TV2.LISTAVALORES_ID = EQ.LINEA 
           							  WHERE (NOT EXISTS
           							      	            (SELECT EQUIPO_ID
-          									                 FROM   TBL_MANTENIMIENTO
+          									                 FROM   tbl_mantenimiento
           									                 WHERE  (EQ.EQUIPO_ID = EQUIPO_ID)));
                 END IF; 
        ELSEIF (p_TABLA = 'MARCAS') THEN
                 IF (p_CONDICION <> '') THEN                    
-                    SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, ' ', ' ' FROM TBL_LISTAVALORES WHERE TIPO = 'MARCAS' AND NOMBRE = p_CONDICION;                  
+                    SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, ' ', ' ', ' ' FROM tbl_listavalores WHERE TIPO = 'MARCAS' AND NOMBRE = p_CONDICION;                  
                 ELSE
-                    SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, ' ', ' ' FROM TBL_LISTAVALORES WHERE TIPO = 'MARCAS';
+                    SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, ' ', ' ', ' ' FROM tbl_listavalores WHERE TIPO = 'MARCAS';
                 END IF;          
        ELSEIF (p_TABLA = 'LINEAS') THEN
                 IF (p_CONDICION <> '') THEN                 
-                    SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, ' ', ' ' FROM TBL_LISTAVALORES WHERE TIPO = 'LINEAS' AND NOMBRE = p_CONDICION;
+                    SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, ' ', ' ', ' ' FROM tbl_listavalores WHERE TIPO = 'LINEAS' AND NOMBRE = p_CONDICION;
                 ELSE
-                    SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, ' ', ' ' FROM TBL_LISTAVALORES WHERE TIPO = 'LINEAS';
+                    SELECT LISTAVALORES_ID, NOMBRE, DESCRIPCION, ' ', ' ', ' ' FROM tbl_listavalores WHERE TIPO = 'LINEAS';
                 END IF;   	
        ELSEIF (p_TABLA = 'TBL_MANTENIMIENTO') THEN
                 IF (p_CONDICION <> '') THEN
                     SELECT M.MANTENIMIENTO_ID, E.SERIE, E.NOMBRE_EQUIPO, M.FECHA, CONCAT(O.DOCUMENTO, " ", O.NOMBRES, " ", O.APELLIDOS) AS OPERARIO, ' ' 
-                    FROM TBL_MANTENIMIENTO M
-                    INNER JOIN TBL_EQUIPOS E ON E.EQUIPO_ID = M.EQUIPO_ID
-                    INNER JOIN TBL_OPERARIOS O ON O.OPERARIO_ID = M.OPERARIO_ID
+                    FROM tbl_mantenimiento M
+                    INNER JOIN tbl_equipos E ON E.EQUIPO_ID = M.EQUIPO_ID
+                    INNER JOIN tbl_operarios O ON O.OPERARIO_ID = M.OPERARIO_ID
                     WHERE E.SERIE = p_CONDICION;
                 ELSE
                     SELECT M.MANTENIMIENTO_ID, E.SERIE, E.NOMBRE_EQUIPO, M.FECHA, CONCAT(O.DOCUMENTO, " ", O.NOMBRES, " ", O.APELLIDOS) AS OPERARIO, ' '
-                    FROM TBL_MANTENIMIENTO M
-                    INNER JOIN TBL_EQUIPOS E ON E.EQUIPO_ID = M.EQUIPO_ID
-                    INNER JOIN TBL_OPERARIOS O ON O.OPERARIO_ID = M.OPERARIO_ID;
+                    FROM tbl_mantenimiento M
+                    INNER JOIN tbl_equipos E ON E.EQUIPO_ID = M.EQUIPO_ID
+                    INNER JOIN tbl_operarios O ON O.OPERARIO_ID = M.OPERARIO_ID;
                 END IF;                        
       END IF;     
 END;
@@ -666,7 +666,7 @@ BEGIN
       SET p_RESULTADO = 0;   
       
       SELECT COUNT(*) INTO v_DatoExiste
-      FROM TBL_OPERARIOS 
+      FROM tbl_operarios 
 	    WHERE OPERARIO_ID = p_OPERARIO_ID
       AND cast(aes_decrypt(CLAVE, 'simi2020') as char) = p_CLAVE_ANTERIOR;
 
@@ -674,7 +674,7 @@ BEGIN
           SET p_RESULTADO = 1;    
       ELSE
           START TRANSACTION;
-          UPDATE TBL_OPERARIOS SET             
+          UPDATE tbl_operarios SET             
           CLAVE             = AES_ENCRYPT(p_CLAVE_NUEVA, 'simi2020'),
           MODIFICADOPOR     = p_OPERARIO_ID
           WHERE OPERARIO_ID = p_OPERARIO_ID;
@@ -682,6 +682,3 @@ BEGIN
           COMMIT;
       END IF;  
 END;
-
-
-
