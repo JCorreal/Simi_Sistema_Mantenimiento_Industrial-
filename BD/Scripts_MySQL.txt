@@ -51,8 +51,8 @@ CREATE TABLE tbl_equipos (
   MODIFICADOPOR int(4) DEFAULT NULL COMMENT 'Usuario que modifica el registro para control de auditoria',
   FECHAINGRESO timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en en que se crea el registro',
   FECHAMODIFICACION timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en en que se modifica el registro',
-  CONSTRAINT FK_LINEA FOREIGN KEY(LINEA)REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID),
-  CONSTRAINT FK_MARCA FOREIGN KEY(MARCA)REFERENCES TBL_LISTAVALORES (LISTAVALORES_ID)
+  CONSTRAINT FK_LINEA FOREIGN KEY(LINEA)REFERENCES tbl_listavalores (LISTAVALORES_ID),
+  CONSTRAINT FK_MARCA FOREIGN KEY(MARCA)REFERENCES tbl_listavalores (LISTAVALORES_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Usuario que modifica el registro para control de auditoria';
 
 CREATE TABLE tbl_mantenimiento (
@@ -114,7 +114,7 @@ BEGIN
       WHERE  OPERARIO_ID = p_CONDICION LIMIT 1;
       
       DECLARE Cur_Mantenimiento2 CURSOR FOR
-      SELECT OPERARIO_ID
+      SELECT EQUIPO_ID
       FROM   tbl_mantenimiento
       WHERE  EQUIPO_ID  = p_CONDICION;
       
@@ -648,7 +648,7 @@ BEGIN
       END IF;     
 END;
  
-CREATE PROCEDURE simidb.SPR_U_CambioClave(
+CREATE PROCEDURE SPR_U_CambioClave(
  IN  p_OPERARIO_ID              INT(4), 
  IN  p_CLAVE_ANTERIOR           INT(6),   
  IN  p_CLAVE_NUEVA              INT(6),   
