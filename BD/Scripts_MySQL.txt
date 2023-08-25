@@ -74,7 +74,7 @@ INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE
 VALUES ('123456', 'Admin', 'Admin', '1234567', 'correo@yahoo.com', AES_ENCRYPT(123456, 'simi2020'), 1, 1, 1);
 
 INSERT INTO tbl_operarios(DOCUMENTO, NOMBRES, APELLIDOS, TELEFONO, CORREO, CLAVE, FOTO, INGRESADOPOR, MODIFICADOPOR) VALUES
-('32499321', 'Valentina', 'Otero', '3108971480', 'valen_oter@gmail.com', AES_ENCRYPT(123456, 'simi2020'), '32499321.jpg', 1, 1),
+('32499321', 'Valentina', 'Otero', '3108971480', 'valen_oter@gmail.com', AES_ENCRYPT(324993, 'simi2020'), '32499321.jpg', 1, 1),
 ('43633198', 'Patricia', 'Jaramillo', '3208971520', 'patri@hotmail.com', AES_ENCRYPT(436331, 'simi2020'), '43633198.jpg', 1, 1),
 ('71675402', 'Oscar', 'Gallardo', '3008971983', 'ocgal@yahoo.com', AES_ENCRYPT(716754, 'simi2020'), '71675402.jpg', 1, 1),
 ('71685009', 'Felipe', 'Giraldo', '3108971252', 'fepeg@yahoo.com', AES_ENCRYPT(716850, 'simi2020'), '71685009.jpg', 1, 1),
